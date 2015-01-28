@@ -25,7 +25,7 @@ describe XDR::Reader, "#read_bytes"  do
   end
 
   def read(str, length)
-    io = StringIO.new(str.b)
+    io = StringIO.new(str)
     subject.read_bytes(io, length)
   end
 end
