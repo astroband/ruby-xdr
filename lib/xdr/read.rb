@@ -8,11 +8,17 @@ module XDR::Read
   autoload :Enum
   autoload :Bool
   autoload :Array
+  autoload :Float32
+  autoload :Float64
+  autoload :Float128
 
   # Primitive readers
-  INT32  = Int32.new
-  UINT32 = Uint32.new
-  INT64  = Int64.new
-  UINT64 = Uint64.new
-  BOOL = Bool.new
+  INT32    = Int32.new
+  UINT32   = Uint32.new
+  INT64    = Int64.new
+  UINT64   = Uint64.new
+  BOOL     = Bool.new
+  FLOAT32  = Float32.new
+  FLOAT64  = Float64.new
+  FLOAT128 = Float128.new
 end
