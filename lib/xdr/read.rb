@@ -7,13 +7,14 @@ module XDR::Read
   autoload :Uint64
   autoload :Enum
   autoload :Bool
-  autoload :Array
   autoload :Float32
   autoload :Float64
   autoload :Float128
   autoload :Opaque
   autoload :VarOpaque
   autoload :String
+  autoload :Array
+  autoload :VarArray
 
   # Primitive readers
   INT32    = Int32.new
