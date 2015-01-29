@@ -5,8 +5,7 @@ require "active_support/core_ext/object/blank"
 module XDR
   extend ActiveSupport::Autoload
 
-  autoload :Reader
-  autoload :Read
+  autoload :Primitives
 
   class Error < StandardError ; end
   class ReadError < Error ; end
