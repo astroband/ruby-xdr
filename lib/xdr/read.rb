@@ -16,6 +16,7 @@ module XDR::Read
   autoload :Array
   autoload :VarArray
   autoload :Struct
+  autoload :Union
 
   # Primitive readers
   INT32    = Int32.new
