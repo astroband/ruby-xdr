@@ -17,6 +17,7 @@ module XDR::Read
   autoload :VarArray
   autoload :Struct
   autoload :Union
+  autoload :Void
 
   # Primitive readers
   INT32    = Int32.new
@@ -27,4 +28,5 @@ module XDR::Read
   FLOAT32  = Float32.new
   FLOAT64  = Float64.new
   FLOAT128 = Float128.new
+  VOID     = Void.new
 end
