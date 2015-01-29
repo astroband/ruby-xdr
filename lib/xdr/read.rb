@@ -6,6 +6,7 @@ module XDR::Read
   autoload :Int64
   autoload :Uint64
   autoload :Enum
+  autoload :Bool
   autoload :Array
 
   # Primitive readers
@@ -13,4 +14,5 @@ module XDR::Read
   UINT32 = Uint32.new
   INT64  = Int64.new
   UINT64 = Uint64.new
+  BOOL = Bool.new
 end
