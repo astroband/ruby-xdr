@@ -6,4 +6,7 @@ module XDR
 
   autoload :Reader
   autoload :Read
+
+
+  class EnumValueError < StandardError ; end
 end

@@ -5,6 +5,7 @@ module XDR::Read
   autoload :Uint32
   autoload :Int64
   autoload :Uint64
+  autoload :Enum
   autoload :Array
 
   # Primitive readers
