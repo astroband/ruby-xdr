@@ -1,17 +1,16 @@
 require 'spec_helper'
 
-EMPTY_ARRAY = "\x00\x00\x00\x00"
-ONE_ARRAY   = "\x00\x00\x00\x01\x00\x00\x00\x00"
-MANY_ARRAY  = "\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x02"
-
 describe XDR::Read::Array, "#read" do
+  let(:empty_array) { "\x00\x00\x00\x00" }
+  let(:one_array) { "\x00\x00\x00\x01\x00\x00\x00\x00" }
+  let(:many_array) { "\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x02" }
 
   subject{ XDR::Read::Array.new(XDR::Read::INT32) }
 
   it "decodes values correctly" do
-    expect(read(EMPTY_ARRAY)).to eq([])
-    expect(read(ONE_ARRAY)).to eq([0])
-    expect(read(MANY_ARRAY)).to eq([0,1,2])
+    expect(read(empty_array)).to eq([])
+    expect(read(one_array)).to eq([0])
+    expect(read(many_array)).to eq([0,1,2])
   end
 
   def read(str)
