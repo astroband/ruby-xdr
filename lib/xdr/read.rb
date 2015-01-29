@@ -13,6 +13,7 @@ module XDR::Read
   autoload :Float128
   autoload :Opaque
   autoload :VarOpaque
+  autoload :String
 
   # Primitive readers
   INT32    = Int32.new
