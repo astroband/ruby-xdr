@@ -1,12 +1,9 @@
 
 class XDR::Primitives::Base
-  private
-  def read_bytes(io, length)
-    io.read(length).tap do |bytes|
-      raise EOFError if bytes.nil? || bytes.length != length
-    end
-  end
+  include XDR::Concerns::ReadsBytes
 
+  private
+  
   def padding_for(length)
     case length % 4
     when 0 ; 0

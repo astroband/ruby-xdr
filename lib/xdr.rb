@@ -6,6 +6,12 @@ module XDR
   extend ActiveSupport::Autoload
 
   autoload :Primitives
+  autoload :RPC
+
+  module Concerns
+    extend ActiveSupport::Autoload
+    autoload :ReadsBytes
+  end
 
   class Error < StandardError ; end
   class ReadError < Error ; end
