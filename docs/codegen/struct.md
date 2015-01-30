@@ -24,6 +24,7 @@ class MyStruct
   attribute :a_hash,       Uint256
 end
 ```
+example usage:
 
 ```ruby
 
