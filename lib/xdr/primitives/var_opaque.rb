@@ -16,8 +16,8 @@ class XDR::Primitives::VarOpaque < XDR::Primitives::Base
     end.string
   end
 
-  def read(io)
-    length = XDR::Primitives::INT32.read(io)
+  def from_xdr(io)
+    length = XDR::Primitives::INT32.from_xdr(io)
     raise XDR::ReadError if length > @max
     padding = padding_for length
 

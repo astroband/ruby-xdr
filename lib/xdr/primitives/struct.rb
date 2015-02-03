@@ -17,7 +17,7 @@ class XDR::Primitives::Struct < XDR::Primitives::Base
     end.string
   end
 
-  def read(io)
-    @fields.map{|f| f.read(io) }
+  def from_xdr(io)
+    @fields.map{|f| f.from_xdr(io) }
   end
 end

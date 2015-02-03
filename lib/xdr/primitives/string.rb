@@ -4,7 +4,7 @@ class XDR::Primitives::String < XDR::Primitives::VarOpaque
     super val.encode("ASCII")
   end
 
-  def read(io)
+  def from_xdr(io)
     super(io).tap do |bytes|
       bytes.force_encoding("ASCII")
     end

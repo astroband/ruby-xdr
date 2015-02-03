@@ -4,8 +4,8 @@ class XDR::Primitives::Enum < XDR::Primitives::Base
     @constants = constants
   end
 
-  def read(io)
-    XDR::Primitives::INT32.read(io).tap do |value|
+  def from_xdr(io)
+    XDR::Primitives::INT32.from_xdr(io).tap do |value|
       found = @constants.index(value)
       raise XDR::EnumValueError unless found
     end

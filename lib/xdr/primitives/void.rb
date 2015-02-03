@@ -1,6 +1,6 @@
 class XDR::Primitives::Void < XDR::Primitives::Base
 
-  def read(io)
+  def from_xdr(io)
     nil
   end
 end

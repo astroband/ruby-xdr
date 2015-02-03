@@ -12,6 +12,6 @@ describe XDR::Primitives::Float32, "#read" do
 
   def read(str)
     io = StringIO.new(str)
-    subject.read(io)
+    subject.from_xdr(io)
   end
 end

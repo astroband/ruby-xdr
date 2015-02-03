@@ -4,7 +4,7 @@ class XDR::Primitives::Int32 < XDR::Primitives::Base
     [val].pack("l>")
   end
 
-  def read(io)
+  def from_xdr(io)
     read_bytes(io, 4).unpack("l>").first
   end
 end

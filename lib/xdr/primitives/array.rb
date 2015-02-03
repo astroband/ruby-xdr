@@ -5,7 +5,7 @@ class XDR::Primitives::Array < XDR::Primitives::Base
     @length         = length
   end
 
-  def read(io)
-    @length.times.map{ @element_reader.read(io) }
+  def from_xdr(io)
+    @length.times.map{ @element_reader.from_xdr(io) }
   end
 end

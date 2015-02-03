@@ -5,7 +5,7 @@ class XDR::Primitives::Opaque < XDR::Primitives::Base
     @padding = padding_for length
   end
 
-  def read(io)
+  def from_xdr(io)
     # read and return @length bytes
     # throw away @padding bytes
     read_bytes(io, @length).tap{ read_bytes(io, @padding) }

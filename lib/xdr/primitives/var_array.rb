@@ -6,10 +6,10 @@ class XDR::Primitives::VarArray < XDR::Primitives::Base
     @max = max
   end
 
-  def read(io)
-    length = XDR::Primitives::INT32.read(io)
+  def from_xdr(io)
+    length = XDR::Primitives::INT32.from_xdr(io)
     raise XDR::ReadError if length > @max
 
-    length.times.map{ @element_reader.read(io) }
+    length.times.map{ @element_reader.from_xdr(io) }
   end
 end

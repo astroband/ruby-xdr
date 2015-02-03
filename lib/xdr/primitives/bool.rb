@@ -1,7 +1,7 @@
 class XDR::Primitives::Bool < XDR::Primitives::Base
 
-  def read(io)
-    value = XDR::Primitives::INT32.read(io)
+  def from_xdr(io)
+    value = XDR::Primitives::INT32.from_xdr(io)
     case value
     when 0 ; false
     when 1 ; true

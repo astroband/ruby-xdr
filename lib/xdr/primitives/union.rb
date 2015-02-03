@@ -4,8 +4,8 @@ class XDR::Primitives::Union < XDR::Primitives::Base
     @type_map = type_map
   end
 
-  def read(io)
-    discriminant = XDR::Primitives::INT32.read(io)
+  def from_xdr(io)
+    discriminant = XDR::Primitives::INT32.from_xdr(io)
     arm = @type_map[discriminant]
     
     if arm.blank?
@@ -15,6 +15,6 @@ class XDR::Primitives::Union < XDR::Primitives::Base
 
     raise XDR::ReadError, "Invalid dscriminant: #{discriminant}" if arm.blank?
 
-    [discriminant, arm.read(io)]
+    [discriminant, arm.from_xdr(io)]
   end
 end

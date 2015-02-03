@@ -20,6 +20,6 @@ describe XDR::Primitives::Array, "#read" do
 
   def read(reader, str)
     io = StringIO.new(str)
-    reader.read(io)
+    reader.from_xdr(io)
   end
 end

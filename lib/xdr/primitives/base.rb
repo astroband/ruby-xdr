@@ -2,15 +2,13 @@
 class XDR::Primitives::Base
   include XDR::Concerns::ReadsBytes
 
-  def to_xdr(val)
+  def to_xdr(io, val)
     raise NotImplementedError, "implement in subclass"
   end
 
-  def read(io)
+  def from_xdr(io)
     raise NotImplementedError, "implement in subclass"
   end
-
-  alias from_xdr read
 
   private
   
