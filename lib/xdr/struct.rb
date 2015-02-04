@@ -18,8 +18,6 @@ class XDR::Struct
   end
 
   def to_xdr
-    result = StringIO.new
-    self.class.to_xdr(self, result)
-    result.string
+    self.class.to_xdr self
   end
 end

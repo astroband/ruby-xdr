@@ -1,6 +1,13 @@
 module XDR::Concerns::ConvertsToXDR
-  def to_xdr(val, io)
-    xdr_serializer.to_xdr(val, io)
+  def to_xdr(val, io=nil)
+    if io.present?
+      xdr_serializer.to_xdr(val, io)
+    else
+      StringIO.
+        new.
+        tap{|io| xdr_serializer.to_xdr(val, io)}.
+        string
+    end
   end
 
   def from_xdr(io)
