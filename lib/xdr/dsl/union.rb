@@ -5,7 +5,7 @@ module XDR::DSL::Union
     self.switch_name = name
   end
 
-  def switch(discriminant, arm)
+  def switch(discriminant, arm=nil)
     self.switches = self.switches.merge(discriminant => arm)
   end
 
