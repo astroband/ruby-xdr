@@ -1,9 +1,7 @@
 module XDR::Bool
-  include XDR::Concerns::ConvertsToXDR
+  extend XDR::Concerns::ConvertsToXDR
 
-  def converter
+  def self.xdr_serializer
     XDR::Primitives::BOOL
   end
-
-  extend self
 end

@@ -1,11 +1,9 @@
 class XDR::String
   include XDR::Concerns::ConvertsToXDR
 
-  def self.[] (max_length)
-    new(max_length)
-  end
-
-  def initialize(max_length)
+  singleton_class.send(:alias_method, :[], :new)
+  
+  def initialize(max_length=XDR::MAX_SIZE)
     @max_length = max_length
   end
 
