@@ -1,7 +1,9 @@
 module XDR::DSL::Struct
   def attribute(name, type)
 
-    raise ArgumentError, "#{type} does not convert to xdr" unless type.is_a?(XDR::Concerns::ConvertsToXDR)
+    unless type.is_a?(XDR::Concerns::ConvertsToXDR)
+      raise ArgumentError, "#{type} does not convert to xdr" 
+    end
 
     self.fields = self.fields.merge(name => type)
 
