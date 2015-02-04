@@ -3,7 +3,7 @@ class XDR::VarOpaque
 
   singleton_class.send(:alias_method, :[], :new)
 
-  def initialize(length=nil)
+  def initialize(length=XDR::MAX_SIZE)
     @length = length
   end
 

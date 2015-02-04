@@ -11,6 +11,8 @@ require "active_support/ordered_hash"
 module XDR
   extend ActiveSupport::Autoload
 
+  MAX_SIZE = 2**32 - 1
+
   autoload :Primitives
   autoload :RPC
   autoload :DSL

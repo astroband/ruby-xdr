@@ -1,5 +1,5 @@
 class XDR::Primitives::VarOpaque < XDR::Primitives::Base
-  DEFAULT_MAX = 2**32 - 1
+  DEFAULT_MAX = XDR::MAX_SIZE
 
   def initialize(max=DEFAULT_MAX)
     @max = max
