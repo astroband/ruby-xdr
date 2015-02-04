@@ -25,6 +25,7 @@ module XDR
   autoload :Enum
 
   # Primitive Types
+  autoload :Array
   autoload :Option
   autoload :Int
   autoload :UnsignedInt
