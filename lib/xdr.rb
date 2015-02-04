@@ -45,6 +45,7 @@ module XDR
   class Error < StandardError ; end
   class ReadError < Error ; end
   class EnumValueError < ReadError ; end
+  class WriteError < Error ; end
 
   mattr_accessor :logger
   self.logger = ActiveSupport::Logger.new(STDOUT)

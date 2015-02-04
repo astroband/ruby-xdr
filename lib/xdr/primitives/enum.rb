@@ -5,6 +5,9 @@ class XDR::Primitives::Enum < XDR::Primitives::Base
   end
 
   def to_xdr(val, io)
+    found = @constants.index(val)
+    raise XDR::WriteError, "Invalid enum value: #{val.inspect}" unless found
+
     XDR::Primitives::INT.to_xdr(val, io)
   end
 
