@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe XDR::Primitives::Array, "#read" do
-  let(:empty){ XDR::Primitives::Array.new(XDR::Primitives::INT32, 0) }
-  let(:one){ XDR::Primitives::Array.new(XDR::Primitives::INT32, 1) }
-  let(:many){ XDR::Primitives::Array.new(XDR::Primitives::INT32, 2) }
+  let(:empty){ XDR::Primitives::Array.new(XDR::Primitives::INT, 0) }
+  let(:one){ XDR::Primitives::Array.new(XDR::Primitives::INT, 1) }
+  let(:many){ XDR::Primitives::Array.new(XDR::Primitives::INT, 2) }
 
   it "decodes values correctly" do
     expect( read empty, "" ).to eq([])

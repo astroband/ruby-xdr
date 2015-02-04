@@ -5,7 +5,7 @@ class XDR::Primitives::Union < XDR::Primitives::Base
   end
 
   def from_xdr(io)
-    discriminant = XDR::Primitives::INT32.from_xdr(io)
+    discriminant = XDR::Primitives::INT.from_xdr(io)
     arm = @type_map[discriminant]
     
     if arm.blank?

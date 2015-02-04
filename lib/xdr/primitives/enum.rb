@@ -5,7 +5,7 @@ class XDR::Primitives::Enum < XDR::Primitives::Base
   end
 
   def from_xdr(io)
-    XDR::Primitives::INT32.from_xdr(io).tap do |value|
+    XDR::Primitives::INT.from_xdr(io).tap do |value|
       found = @constants.index(value)
       raise XDR::EnumValueError unless found
     end

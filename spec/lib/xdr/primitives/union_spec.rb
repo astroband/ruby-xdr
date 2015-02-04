@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe XDR::Primitives::Union, "#read" do
   let(:type_map){{
-    0        => XDR::Primitives::INT32,
-    1        => XDR::Primitives::INT64,
+    0        => XDR::Primitives::INT,
+    1        => XDR::Primitives::HYPER,
     :default => XDR::Primitives::String.new()
   }}
 

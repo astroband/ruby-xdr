@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe XDR::Primitives::Struct, "#read" do
-  subject{ XDR::Primitives::Struct.new(XDR::Primitives::INT32, XDR::Primitives::INT32) }
+  subject{ XDR::Primitives::Struct.new(XDR::Primitives::INT, XDR::Primitives::INT) }
 
   it "decodes values correctly" do
     expect( read "\x00\x00\x00\x00\x00\x00\x00\x00" ).to eq([0,0])

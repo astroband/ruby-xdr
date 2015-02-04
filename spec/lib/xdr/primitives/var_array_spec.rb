@@ -5,7 +5,7 @@ describe XDR::Primitives::VarArray, "#read" do
   let(:one_array) { "\x00\x00\x00\x01\x00\x00\x00\x00" }
   let(:many_array) { "\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x02" }
 
-  subject{ XDR::Primitives::VarArray.new(XDR::Primitives::INT32, 3) }
+  subject{ XDR::Primitives::VarArray.new(XDR::Primitives::INT, 3) }
 
   it "decodes values correctly" do
     expect(read(empty_array)).to eq([])

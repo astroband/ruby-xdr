@@ -21,13 +21,13 @@ module XDR::Primitives
   autoload :Void
 
   # Primitive readers
-  INT32    = Int.new
-  UINT32   = UnsignedInt.new
-  INT64    = Hyper.new
-  UINT64   = UnsignedHyper.new
-  BOOL     = Bool.new
-  FLOAT32  = Float32.new
-  FLOAT64  = Float64.new
-  FLOAT128 = Float128.new
-  VOID     = Void.new
+  INT            = Int.new
+  UNSIGNED_INT   = UnsignedInt.new
+  HYPER          = Hyper.new
+  UNSIGNED_HYPER = UnsignedHyper.new
+  BOOL           = Bool.new
+  FLOAT32        = Float32.new
+  FLOAT64        = Float64.new
+  FLOAT128       = Float128.new
+  VOID           = Void.new
 end

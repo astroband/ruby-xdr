@@ -9,13 +9,13 @@ class XDR::Primitives::VarOpaque < XDR::Primitives::Base
     length = val.bytesize
     raise XDR::WriteError, "Value length #{length} exceeds max #{@max}" if length > @max
 
-    XDR::Primitives::INT32.to_xdr(length, io)
+    XDR::Primitives::INT.to_xdr(length, io)
     io.write val
     io.write "\x00" * padding_for(length)
   end
 
   def from_xdr(io)
-    length = XDR::Primitives::INT32.from_xdr(io)
+    length = XDR::Primitives::INT.from_xdr(io)
     raise XDR::ReadError if length > @max
     padding = padding_for length
 
