@@ -13,11 +13,19 @@ module XDR::Enum
 
   module ClassMethods
     def members
-      @members ||= constants(false).map{|n| [n, const_get(n)]}.to_h
+      @members ||= constants(false).
+        map{|n| [n, const_get(n)]}.
+        to_h.
+        with_indifferent_access
     end
 
     def from_name(name)
-      const_get(name)
+      normalized = name.to_s.underscore.upcase
+      members[normalized].tap do |r|
+        if r.blank?
+          raise XDR::EnumNameError, "#{name} is not a member of #{self.name}"
+        end
+      end
     end
   end
 end

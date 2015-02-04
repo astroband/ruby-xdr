@@ -1,7 +1,8 @@
 module XDR::DSL::Union
-  def switch_on(type)
+  def switch_on(type, name)
     raise ArgumentError if self.switch_type.present?
     self.switch_type = type
+    self.switch_name = name
   end
 
   def switch(discriminant, arm)
