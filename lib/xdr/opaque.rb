@@ -1,14 +1,13 @@
 class XDR::Opaque
-  def self.[] (length)
-    new(length)
-  end
+  include XDR::Concerns::ConvertsToXDR
+
+  singleton_class.send(:alias_method, :[], :new)
 
   def initialize(length)
     @length = length
   end
 
-  def valid?(input)
-    input.is_a?(String) && input.length == @length
+  def xdr_serializer
+    XDR::Primitives::Opaque.new(@length)
   end
-
 end
