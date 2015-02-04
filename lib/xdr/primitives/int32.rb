@@ -1,7 +1,7 @@
 class XDR::Primitives::Int32 < XDR::Primitives::Base
-  def to_xdr(val)
+  def to_xdr(val, io)
     # TODO: check bounds
-    [val].pack("l>")
+    io.write [val].pack("l>")
   end
 
   def from_xdr(io)

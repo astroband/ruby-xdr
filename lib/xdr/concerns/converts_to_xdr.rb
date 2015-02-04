@@ -1,6 +1,6 @@
 module XDR::Concerns::ConvertsToXDR
-  def to_xdr(val)
-    xdr_serializer.to_xdr(val)
+  def to_xdr(val, io)
+    xdr_serializer.to_xdr(val, io)
   end
 
   def from_xdr(io)

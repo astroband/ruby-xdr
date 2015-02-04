@@ -5,15 +5,13 @@ class XDR::Primitives::VarOpaque < XDR::Primitives::Base
     @max = max
   end
 
-  def to_xdr(val)
+  def to_xdr(val, io)
     length = val.bytesize
     raise XDR::WriteError, "Value length #{length} exceeds max #{@max}" if length > @max
 
-    StringIO.new.tap do |out|
-      out.write XDR::Primitives::INT32.to_xdr(length)
-      out.write val
-      out.write "\x00" * padding_for(length)
-    end.string
+    XDR::Primitives::INT32.to_xdr(length, io)
+    io.write val
+    io.write "\x00" * padding_for(length)
   end
 
   def from_xdr(io)
