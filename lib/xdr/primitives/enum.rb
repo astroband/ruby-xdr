@@ -4,6 +4,10 @@ class XDR::Primitives::Enum < XDR::Primitives::Base
     @constants = constants
   end
 
+  def to_xdr(val, io)
+    XDR::Primitives::INT.to_xdr(val, io)
+  end
+
   def from_xdr(io)
     XDR::Primitives::INT.from_xdr(io).tap do |value|
       found = @constants.index(value)

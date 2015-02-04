@@ -4,6 +4,4 @@ module XDR::UnsignedInt
   def self.xdr_serializer
     XDR::Primitives::UNSIGNED_INT
   end
-
-  extend self
 end

@@ -1,5 +1,6 @@
 require "xdr/version"
 require "active_model"
+require "active_support/concern"
 require "active_support/dependencies/autoload"
 require "active_support/core_ext/object/blank"
 require "active_support/core_ext/module/attribute_accessors"

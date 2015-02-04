@@ -4,6 +4,4 @@ module XDR::Hyper
   def self.xdr_serializer
     XDR::Primitives::HYPER
   end
-
-  extend self
 end

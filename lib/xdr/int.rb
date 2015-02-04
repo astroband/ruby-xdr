@@ -4,6 +4,4 @@ module XDR::Int
   def self.xdr_serializer
     XDR::Primitives::INT
   end
-
-  extend self
 end
