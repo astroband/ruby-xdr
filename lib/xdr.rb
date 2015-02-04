@@ -22,6 +22,9 @@ module XDR
   # Primitive Types
   autoload :Option
   autoload :Int
+  autoload :UnsignedInt
+  autoload :Hyper
+  autoload :UnsignedHyper
   autoload :Bool
   autoload :Opaque
   autoload :VarOpaque
