@@ -2,10 +2,10 @@ module XDR::Primitives
   extend ActiveSupport::Autoload
 
   autoload :Base
-  autoload :Int32
-  autoload :Uint32
-  autoload :Int64
-  autoload :Uint64
+  autoload :Int
+  autoload :UnsignedInt
+  autoload :Hyper
+  autoload :UnsignedHyper
   autoload :Enum
   autoload :Bool
   autoload :Float32
@@ -21,10 +21,10 @@ module XDR::Primitives
   autoload :Void
 
   # Primitive readers
-  INT32    = Int32.new
-  UINT32   = Uint32.new
-  INT64    = Int64.new
-  UINT64   = Uint64.new
+  INT32    = Int.new
+  UINT32   = UnsignedInt.new
+  INT64    = Hyper.new
+  UINT64   = UnsignedHyper.new
   BOOL     = Bool.new
   FLOAT32  = Float32.new
   FLOAT64  = Float64.new

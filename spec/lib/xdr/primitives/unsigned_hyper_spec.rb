@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 
-describe XDR::Primitives::Uint64, "#read" do
+describe XDR::Primitives::UnsignedHyper, "#read" do
 
   it "decodes values correctly" do
     expect(read("\x00\x00\x00\x00\x00\x00\x00\x00")).to eq(0)

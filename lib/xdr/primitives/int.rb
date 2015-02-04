@@ -1,4 +1,4 @@
-class XDR::Primitives::Int32 < XDR::Primitives::Base
+class XDR::Primitives::Int < XDR::Primitives::Base
   def to_xdr(val, io)
     # TODO: check bounds
     io.write [val].pack("l>")
