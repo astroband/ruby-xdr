@@ -11,6 +11,7 @@ module XDR::Primitives
   autoload :Float32
   autoload :Float64
   autoload :Float128
+  autoload :Option
   autoload :Opaque
   autoload :VarOpaque
   autoload :String

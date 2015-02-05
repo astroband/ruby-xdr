@@ -3,11 +3,11 @@ class XDR::Primitives::Base
   include XDR::Concerns::ReadsBytes
 
   def to_xdr(io, val)
-    raise NotImplementedError, "implement in subclass"
+    raise NotImplementedError, "implement in #{self.class.name}"
   end
 
   def from_xdr(io)
-    raise NotImplementedError, "implement in subclass"
+    raise NotImplementedError, "implement in #{self.class.name}"
   end
 
   private
