@@ -5,8 +5,9 @@ module XDR::DSL::Union
     self.switch_name = name
   end
 
-  def switch(discriminant, arm=nil)
-    self.switches = self.switches.merge(discriminant => arm)
+  def switch(switch, arm=nil)
+    # TODO: confirm switch is a member of the switch_on enum
+    self.switches = self.switches.merge(switch => arm)
   end
 
   def attribute(name, type)

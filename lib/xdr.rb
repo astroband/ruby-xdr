@@ -3,6 +3,7 @@ require "active_model"
 require "active_support/concern"
 require "active_support/dependencies/autoload"
 require "active_support/core_ext/object/blank"
+require "active_support/core_ext/object/try"
 require "active_support/core_ext/module/attribute_accessors"
 require "active_support/core_ext/class/attribute"
 require "active_support/core_ext/hash/indifferent_access"
@@ -54,6 +55,10 @@ module XDR
   class ReadError < Error ; end
   class EnumValueError < ReadError ; end
   class WriteError < Error ; end
+
+  class InvalidSwitchError < Error ; end
+  class InvalidArmError < Error ; end
+  class ArmNotSetError < Error ; end
 
   mattr_accessor :logger
   self.logger = ActiveSupport::Logger.new(STDOUT)
