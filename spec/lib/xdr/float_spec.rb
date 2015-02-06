@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 
-describe XDR::Primitives::Float32, "#read" do
+describe XDR::Float, ".read" do
 
   it "decodes values correctly" do
     expect(read("\x00\x00\x00\x00")).to eq(0.0)
@@ -12,6 +12,6 @@ describe XDR::Primitives::Float32, "#read" do
 
   def read(str)
     io = StringIO.new(str)
-    subject.from_xdr(io)
+    subject.read(io)
   end
 end

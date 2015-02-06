@@ -1,11 +1,18 @@
 require 'spec_helper'
 
-describe XDR::Primitives::Enum, "#read" do
+module TestColor
+  include XDR::Enum
+
+  RED   = 0
+  GREEN = 1
+end
+
+describe XDR::Enum, ".read" do
   let(:zero) { "\x00\x00\x00\x00" }
   let(:one) { "\x00\x00\x00\x01" }
   let(:two) { "\x00\x00\x00\x02" }
 
-  subject{ XDR::Primitives::Enum.new(0,1) }
+  subject{ TestColor }
 
   it "decodes values correctly" do
     expect( read zero ).to eq(0)
@@ -18,6 +25,6 @@ describe XDR::Primitives::Enum, "#read" do
 
   def read(str)
     io = StringIO.new(str)
-    subject.from_xdr(io)
+    subject.read(io)
   end
 end

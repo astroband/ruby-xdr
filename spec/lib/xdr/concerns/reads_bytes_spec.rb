@@ -1,11 +1,12 @@
 require 'spec_helper'
 
-class TestReader < XDR::Primitives::Base
+class TestReader
+  include XDR::Concerns::ReadsBytes
   public :read_bytes
 end
 
 
-describe XDR::Primitives::Base, "#read_bytes"  do
+describe XDR::Concerns::ReadsBytes, "#read_bytes"  do
   subject{ TestReader.new }
 
   it "raises EOFError when the requested length goes beyond the length of the stream" do

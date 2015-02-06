@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-describe XDR::Primitives::Bool, "#read" do
+describe XDR::Bool, ".read" do
+  subject{ XDR::Bool }
+
   let(:false_s) {  "\x00\x00\x00\x00" }
   let(:true_s)  {  "\x00\x00\x00\x01" }
   let(:two)     {  "\x00\x00\x00\x02" }
@@ -16,6 +18,6 @@ describe XDR::Primitives::Bool, "#read" do
 
   def read(str)
     io = StringIO.new(str)
-    subject.from_xdr(io)
+    subject.read(io)
   end
 end

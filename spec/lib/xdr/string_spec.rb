@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 
-describe XDR::Primitives::String, "#read" do
-  subject{ XDR::Primitives::String.new(3) }
+describe XDR::String, "#read" do
+  subject{ XDR::String.new(3) }
 
   it "decodes values correctly" do
     expect(read("\x00\x00\x00\x00")).to eq("")
@@ -16,6 +16,6 @@ describe XDR::Primitives::String, "#read" do
 
   def read(str)
     io = StringIO.new(str)
-    subject.from_xdr(io)
+    subject.read(io)
   end
 end

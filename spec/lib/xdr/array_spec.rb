@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe XDR::Primitives::Array, "#read" do
-  let(:empty){ XDR::Primitives::Array.new(XDR::Primitives::INT, 0) }
-  let(:one){ XDR::Primitives::Array.new(XDR::Primitives::INT, 1) }
-  let(:many){ XDR::Primitives::Array.new(XDR::Primitives::INT, 2) }
+describe XDR::Array, "#read" do
+  let(:empty) { XDR::Array[XDR::Int, 0] }
+  let(:one)   { XDR::Array[XDR::Int, 1] }
+  let(:many)  { XDR::Array[XDR::Int, 2] }
 
   it "decodes values correctly" do
     expect( read empty, "" ).to eq([])
@@ -20,6 +20,6 @@ describe XDR::Primitives::Array, "#read" do
 
   def read(reader, str)
     io = StringIO.new(str)
-    reader.from_xdr(io)
+    reader.read(io)
   end
 end
