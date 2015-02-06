@@ -58,7 +58,7 @@ end
 describe XDR::Struct, "valid?"
 describe XDR::Struct, "optional members"
 
-describe XDR::Struct, ".to_xdr" do
+describe XDR::Struct, "#to_xdr" do
   subject{ StructSpec::SampleError.new({code: 3, msg: "It broke!"}) }
   let(:result){ subject.to_xdr }
 
@@ -69,4 +69,20 @@ describe XDR::Struct, ".to_xdr" do
   end
 
   it "raises an exception if the struct is not valid"
+end
+
+
+describe XDR::Struct, ".read" do
+  subject{ StructSpec::SampleError }
+  let(:result){ read "\x00\x00\x00\x01\x00\x00\x00\x0812345678" }
+  it "decodes values correctly" do
+    expect( result ).to be_a(subject)
+    expect( result.code  ).to eq(1)
+    expect( result.msg  ).to eq("12345678")
+  end
+
+  def read(str)
+    io = StringIO.new(str)
+    subject.read(io)
+  end
 end

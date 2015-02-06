@@ -68,7 +68,7 @@ class XDR::Union
   end
 
   def get
-    @value
+    @value unless @value == :void
   end
 
   def attribute!(attr)

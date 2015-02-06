@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 
-describe XDR::Primitives::UnsignedInt, "#read" do
+describe XDR::UnsignedInt, ".read" do
 
   it "decodes values correctly" do
     expect(read("\x00\x00\x00\x00")).to eq(0)
@@ -11,6 +11,6 @@ describe XDR::Primitives::UnsignedInt, "#read" do
 
   def read(str)
     io = StringIO.new(str)
-    subject.from_xdr(io)
+    subject.read(io)
   end
 end
