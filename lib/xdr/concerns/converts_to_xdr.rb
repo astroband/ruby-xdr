@@ -5,7 +5,7 @@ module XDR::Concerns::ConvertsToXDR
     StringIO.
       new.
       tap{|io| write(val, io)}.
-      string.b
+      string.force_encoding("ASCII-8BIT")
   end
 
   def write(val, io)
