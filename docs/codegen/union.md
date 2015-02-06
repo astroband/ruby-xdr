@@ -43,28 +43,10 @@ class MyUnion < XDR::Union
   switch MyUnionType::TYPE_2, :type_two_val
   switch MyUnionType::TYPE_3, :type_two_val
   switch MyUnionType::TYPE_4 # void
-  switch :type_three_val # default
+  switch :default, :type_three_val # default
 
   attribute :type_one_val,    XDR::Hyper
   attribute :type_two_val,    XDR::Int
   attribute :type_three_val,  CustomType
 end
-```
-
-usage:
-
-```ruby
-MyUnion.new # => raise 
-
-val = MyUnion.new(:type_one_val, 100)
-val.arm # => 0
-val.get # => 100
-val.type_one_val! # => 100
-val.type_two_val! # => raise ArmNotSetError
-
-val.set :default, CustomType.new
-val.arm # => :default
-val.get # => #<CustomType:...>
-val.type_three_val! # => #<CustomType:...>
-
 ```

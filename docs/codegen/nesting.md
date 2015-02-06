@@ -28,14 +28,16 @@ module CLFType
 end
 
 
-class CLFEntry
-  include XDR::Struct
+class CLFEntry < XDR::Struct
 
-  class Entry
-    include XDR::Union
+  class Entry < XDR::Union
+    switch_on CLFType
 
-    arm :live_entry, CLFType::LIVEENTRY, LedgerEntry
-    arm :dead_entry, CLFType::DEADENTRY, LedgerKey
+    switch CLFType::LIVEENTRY, :live_entry
+    switch CLFType::DEADENTRY, :dead_entry
+
+    attribute :live_entry, LedgerEntry
+    attribute :dead_entry, LedgerKey
   end
 
   attribute :hash, Hash
