@@ -16,7 +16,6 @@ module XDR
 
   MAX_SIZE = 2**32 - 1
 
-  autoload :Primitives
   autoload :RPC
   autoload :DSL
 
@@ -40,6 +39,7 @@ module XDR
   autoload :VarOpaque
   autoload :VarArray
   autoload :String
+  autoload :Void
 
   # Validators
   autoload :StructValidator
@@ -57,7 +57,7 @@ module XDR
   class WriteError < Error ; end
 
   class InvalidSwitchError < Error ; end
-  class InvalidArmError < Error ; end
+  class InvalidValueError < Error ; end
   class ArmNotSetError < Error ; end
 
   mattr_accessor :logger

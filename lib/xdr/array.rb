@@ -8,7 +8,13 @@ class XDR::Array
     @length = length
   end
 
-  def xdr_serializer
-    XDR::Primitives::Array.new(@type.xdr_serializer, @length)
+  def write(val, io)
+    @length.times do |i|
+      @type.write val[i], io
+    end
+  end
+
+  def read(io)
+    @length.times.map{ @type.read(io) }
   end
 end

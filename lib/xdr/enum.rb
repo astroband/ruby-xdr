@@ -4,10 +4,22 @@ module XDR::Enum
   included do
     extend XDR::Concerns::ConvertsToXDR 
 
-    # NOTE: cannot include in ClassMethods because
-    # it gets include before this block is run
-    def self.xdr_serializer
-      @xdr_serializer ||= XDR::Primitives::Enum.new(*members.values)
+    # NOTE: cannot include these methods in ClassMethods because
+    # it gets include before this block is run, thus it wouldn't
+    # override the abstract methods defined in ConvertsToXDR
+    
+    def self.write(val, io)
+      found = valid_values.include?(val)
+      raise XDR::WriteError, "Invalid enum value: #{val.inspect}" unless found
+
+      XDR::Int.write(val, io)
+    end
+
+    def self.read(io)
+      XDR::Int.read(io).tap do |val|
+        found = valid_values.include?(val)
+        raise XDR::EnumValueError, "Unknown #{name} member: #{val}" unless found
+      end
     end
   end
 
@@ -17,6 +29,10 @@ module XDR::Enum
         map{|n| [n, const_get(n)]}.
         to_h.
         with_indifferent_access
+    end
+
+    def valid_values
+      @values ||= Set.new(members.values)
     end
 
     def from_name(name)

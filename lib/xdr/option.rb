@@ -10,9 +10,17 @@ class XDR::Option
     @child_type = child_type
   end
 
-  def xdr_serializer
-    return @xdr_serializer if defined? @xdr_serializer
+  def write(val, io)
+    if val.present?
+      XDR::Bool.write(true, io)
+      @child_type.write(val, io)
+    else
+      XDR::Bool.write(false, io)
+    end
+  end
 
-    @xdr_serializer = XDR::Primitives::Option.new(child_type.xdr_serializer)
+  def read(io)
+    present = XDR::Bool.read(io)
+    @child_type.read(io) if present
   end
 end

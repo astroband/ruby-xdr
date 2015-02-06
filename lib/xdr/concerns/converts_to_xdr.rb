@@ -1,22 +1,33 @@
 module XDR::Concerns::ConvertsToXDR
-  def to_xdr(val, io=nil)
-    if io.present?
-      xdr_serializer.to_xdr(val, io)
-    else
-      StringIO.
-        new.
-        tap{|io| xdr_serializer.to_xdr(val, io)}.
-        string
-    end
+  include XDR::Concerns::ReadsBytes
+  
+  def to_xdr(val)
+    StringIO.
+      new.
+      tap{|io| write(val, io)}.
+      string.b
   end
 
-  def from_xdr(io)
-    io = io.is_a?(String) ? StringIO.new(io) : io
-
-    xdr_serializer.from_xdr(io)
-  end
-
-  def xdr_serializer
+  def write(val, io)
     raise NotImplementedError, "implement in including class"
+  end
+  
+  def from_xdr(string)
+    io = StringIO.new(string)
+    read(io)
+  end
+
+  def read(io)
+    raise NotImplementedError, "implement in including class"
+  end
+
+  private
+  def padding_for(length)
+    case length % 4
+    when 0 ; 0
+    when 1 ; 3
+    when 2 ; 2
+    when 3 ; 1
+    end
   end
 end

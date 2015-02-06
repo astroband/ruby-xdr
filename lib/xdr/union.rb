@@ -11,6 +11,7 @@ class XDR::Union
   class_attribute :switch_type
   class_attribute :switch_name
   attr_reader     :switch
+  attr_reader     :arm
 
   self.arms        = ActiveSupport::OrderedHash.new
   self.switches    = ActiveSupport::OrderedHash.new
@@ -21,6 +22,30 @@ class XDR::Union
 
   validates_with XDR::UnionValidator
 
+  def self.arm_for_switch(switch)
+    result = switches.fetch(switch, :switch_not_found)
+    result = switches.fetch(:default, :switch_not_found) if result == :switch_not_found
+
+    if result == :switch_not_found
+      raise XDR::InvalidSwitchError, "Bad switch: #{switch.inspect}"
+    end
+
+    result
+  end
+
+  def self.read(io)
+    switch   = XDR::Int.read(io)
+    arm      = arm_for_switch(switch)
+    arm_type = arms[arm] || XDR::Void
+    value    = arm_type.read(io)
+    new(switch, value)
+  end
+
+  def self.write(val, io)
+    XDR::Int.write(val.switch, io)
+    arm_type = arms[val.arm] || XDR::Void
+    arm_type.write(val.get,io)
+  end
 
   def initialize(switch=nil, value=:void)
     @switch   = nil
@@ -29,36 +54,15 @@ class XDR::Union
     set(switch, value) if switch
   end
 
-  def self.arm_for_switch(switch)
-    switches.fetch(switch, :switch_not_found).tap do |s|
-      if s == :switch_not_found
-        raise XDR::InvalidSwitchError, "Bad switch: #{switch.inspect}"
-      end
-    end
-  end
-
-  def self.xdr_serializer
-    return @xdr_serializer if defined? @xdr_serializer
-
-    type_map = switches.map do |k,v| 
-      arm_type       = arms[arm_for_switch(k)]
-      arm_serializer = arm_type.xdr_serializer if arm_type.present?
-      [k, arm_serializer]
-    end.to_h
-
-
-    @xdr_serializer = XDR::Primitives::Union.new(type_map)
-  end
-
   def to_xdr
     self.class.to_xdr self
   end
 
-  def set(switch=nil, value=:void)
-    @switch   = switch_type.from_name(switch)
-    @arm      = self.class.arm_for_switch @switch
+  def set(switch, value=:void)
+    @switch = switch.is_a?(Fixnum) ? switch : switch_type.from_name(switch)
+    @arm    = self.class.arm_for_switch @switch
 
-    raise XDR::InvalidArmError unless valid_for_arm_type(value, @arm)
+    raise XDR::InvalidValueError unless valid_for_arm_type(value, @arm)
 
     @value = value
   end
@@ -76,8 +80,6 @@ class XDR::Union
   end
 
   private
-
-
   def valid_for_arm_type(value, arm)
     arm_type = arms[@arm]
 

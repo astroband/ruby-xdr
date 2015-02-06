@@ -1,7 +1,12 @@
 module XDR::UnsignedHyper
   extend XDR::Concerns::ConvertsToXDR
 
-  def self.xdr_serializer
-    XDR::Primitives::UNSIGNED_HYPER
+  def self.write(val, io)
+    # TODO: check bounds
+    io.write [val].pack("Q>")
+  end
+
+  def self.read(io)
+    read_bytes(io, 8).unpack("Q>").first
   end
 end

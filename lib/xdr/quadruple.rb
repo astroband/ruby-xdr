@@ -1,7 +1,5 @@
 module XDR::Quadruple
   extend XDR::Concerns::ConvertsToXDR
 
-  def self.xdr_serializer
-    XDR::Primitives::QUADRUPLE
-  end
+  # No support for quads, so we don't overide read/write
 end

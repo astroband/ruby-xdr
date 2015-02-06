@@ -10,14 +10,22 @@ class XDR::Struct
 
   validates_with XDR::StructValidator
 
-  def self.xdr_serializer
-    # TODO: raise if `struct` aint an `XDR::Struct`
-    return @xdr_serializer if defined? @xdr_serializer
-    field_converters = self.fields.values.map(&:xdr_serializer)
-    @xdr_serializer = XDR::Primitives::Struct.new(*field_converters)
+  def self.read(io)
+    new.tap do |result|
+      fields.each do |name, type|
+        result.public_send("#{name}=", type.read(io))
+      end
+    end
+  end
+
+  def self.write(val, io)
+    fields.each do |name, type|
+      field_val = val.public_send(name)
+      type.write(field_val, io)
+    end
   end
 
   def to_xdr
-    self.class.to_xdr self
+    self.class.to_xdr(self)
   end
 end
