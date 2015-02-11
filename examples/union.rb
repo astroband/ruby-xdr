@@ -1,18 +1,18 @@
 require 'xdr'
 
-module ResultType
-  include XDR::Enum
-  OK       = 0
-  ERROR    = 1
-  NONSENSE = 2
+class ResultType < XDR::Enum
+  member :ok,       0
+  member :error,    1
+  member :nonsense, 2
+  seal
 end
 
 class Result < XDR::Union
   switch_on ResultType, :type
 
-  switch ResultType::OK
-  switch ResultType::ERROR, :message
-  switch :default, :void
+  switch ResultType.ok
+  switch ResultType.error, :message
+  switch :default
 
   attribute :message, XDR::String[]
 end
