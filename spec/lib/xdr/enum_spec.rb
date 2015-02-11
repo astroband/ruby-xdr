@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-module TestColor
-  include XDR::Enum
+class TestColor < XDR::Enum
+  member :red, 0
+  member :green, 1
 
-  RED   = 0
-  GREEN = 1
+  seal
 end
 
 describe XDR::Enum, ".read" do
@@ -15,8 +15,8 @@ describe XDR::Enum, ".read" do
   subject{ TestColor }
 
   it "decodes values correctly" do
-    expect( read zero ).to eq(0)
-    expect( read one ).to eq(1)
+    expect( read zero ).to eq(TestColor.red)
+    expect( read one ).to eq(TestColor.green)
   end
 
   it "raises EnumValueError if the decoded value is not in the defined constants" do

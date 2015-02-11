@@ -3,4 +3,5 @@ module XDR::DSL
 
   autoload :Struct
   autoload :Union
+  autoload :Enum
 end

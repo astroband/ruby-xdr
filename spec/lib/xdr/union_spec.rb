@@ -1,18 +1,19 @@
 require 'spec_helper'
 
 module UnionSpec
-  module ResultType
-    include XDR::Enum
-    OK       = 0
-    ERROR    = 1
-    NONSENSE = 2
+  class ResultType < XDR::Enum
+    member :ok, 0
+    member :error, 1
+    member :nonsense, 2
+
+    seal
   end
 
   class Result < XDR::Union
     switch_on ResultType, :type
 
-    switch ResultType::OK
-    switch ResultType::ERROR, :message
+    switch ResultType.ok
+    switch ResultType.error, :message
     switch :default
 
     attribute :message, XDR::String[]
@@ -29,7 +30,7 @@ describe XDR::Union, ".read" do
 
     it "decodes correctly" do
       expect(result).to be_a(UnionSpec::Result)
-      expect(result.switch).to eq(UnionSpec::ResultType::OK)
+      expect(result.switch).to eq(UnionSpec::ResultType.ok)
       expect(result.arm).to be_nil
       expect(result.get).to be_nil
     end
@@ -40,7 +41,7 @@ describe XDR::Union, ".read" do
 
     it "decodes correctly" do
       expect(result).to be_a(UnionSpec::Result)
-      expect(result.switch).to eq(UnionSpec::ResultType::ERROR)
+      expect(result.switch).to eq(UnionSpec::ResultType.error)
       expect(result.arm).to eq(:message)
       expect(result.get).to eq("12345678")
       expect(result.message!).to eq("12345678")
@@ -52,7 +53,7 @@ describe XDR::Union, ".read" do
 
     it "decodes correctly" do
       expect(result).to be_a(UnionSpec::Result)
-      expect(result.switch).to eq(UnionSpec::ResultType::NONSENSE)
+      expect(result.switch).to eq(UnionSpec::ResultType.nonsense)
       expect(result.arm).to be_nil
       expect(result.get).to be_nil
     end

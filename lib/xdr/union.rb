@@ -34,7 +34,7 @@ class XDR::Union
   end
 
   def self.read(io)
-    switch   = XDR::Int.read(io)
+    switch   = switch_type.read(io)
     arm      = arm_for_switch(switch)
     arm_type = arms[arm] || XDR::Void
     value    = arm_type.read(io)
@@ -42,7 +42,7 @@ class XDR::Union
   end
 
   def self.write(val, io)
-    XDR::Int.write(val.switch, io)
+    switch_type.write(val.switch, io)
     arm_type = arms[val.arm] || XDR::Void
     arm_type.write(val.get,io)
   end
@@ -59,7 +59,7 @@ class XDR::Union
   end
 
   def set(switch, value=:void)
-    @switch = switch.is_a?(Fixnum) ? switch : switch_type.from_name(switch)
+    @switch = switch.is_a?(switch_type) ? switch : switch_type.from_name(switch)
     @arm    = self.class.arm_for_switch @switch
 
     raise XDR::InvalidValueError unless valid_for_arm_type(value, @arm)
