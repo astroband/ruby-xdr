@@ -22,6 +22,13 @@ class XDR::Enum
     end
   end
 
+  def self.from_name(name)
+    normalized = name.to_s.underscore
+    members[normalized].tap do |r|      
+      raise XDR::EnumNameError, "#{name} is not a member of #{self.name}" if r.blank?
+    end
+  end
+
   attr_reader :name
   attr_reader :value
 
@@ -29,12 +36,5 @@ class XDR::Enum
     raise ArgumentError, "#{self.class} is sealed" if self.sealed
     @name  = name
     @value = value
-  end
-
-  def from_name(name)
-    normalized = name.to_s.underscore
-    members[normalized].tap do |r|      
-      raise XDR::EnumNameError, "#{name} is not a member of #{self.name}" if r.blank?
-    end
   end
 end
