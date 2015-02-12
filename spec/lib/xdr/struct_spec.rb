@@ -68,7 +68,10 @@ describe XDR::Struct, "#to_xdr" do
     expect(result[8..-1]).to eq("It broke!\x00\x00\x00")
   end
 
-  it "raises an exception if the struct is not valid"
+  it "raises an exception if the struct is not valid" do
+    subject.code = nil
+    expect{ result }.to raise_error(XDR::WriteError)
+  end
 end
 
 
