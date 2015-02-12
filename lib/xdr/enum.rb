@@ -37,4 +37,8 @@ class XDR::Enum
     @name  = name
     @value = value
   end
+
+  def to_s
+    "#{self.class.name}.#{@name}(#{@value})"
+  end
 end
