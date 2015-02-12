@@ -18,6 +18,15 @@ module UnionSpec
 
     attribute :message, XDR::String[]
   end
+
+  class UnforfivingResult < XDR::Union
+    switch_on ResultType, :type
+
+    switch ResultType.ok
+    switch ResultType.error, :message
+
+    attribute :message, XDR::String[]
+  end
 end
 
 describe XDR::Union, ".read" do
@@ -56,6 +65,23 @@ describe XDR::Union, ".read" do
       expect(result.switch).to eq(UnionSpec::ResultType.nonsense)
       expect(result.arm).to be_nil
       expect(result.get).to be_nil
+    end
+  end
+
+  context "with a switch that is not a member of the switch_type" do
+    let(:bytes){ StringIO.new "\x00\x00\x00\x10" }
+
+    it "raises EnumValueError" do
+      expect{ result }.to raise_error XDR::EnumValueError
+    end
+  end
+
+  context "with a invalid arm encoded" do
+    let(:bytes){ StringIO.new "\x00\x00\x00\x02" }
+    subject{ UnionSpec::UnforfivingResult }
+
+    it "raises InvalidSwitchError" do
+      expect{ result }.to raise_error XDR::InvalidSwitchError
     end
   end
 
