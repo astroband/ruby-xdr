@@ -20,4 +20,8 @@ class XDR::Array
   def read(io)
     @length.times.map{ @type.read(io) }
   end
+
+  def valid?(val)
+    val.is_a?(Array)
+  end
 end

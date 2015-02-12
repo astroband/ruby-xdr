@@ -17,4 +17,8 @@ module XDR::Bool
     else ; raise XDR::ReadError, "Invalid bool value: #{val}"
     end
   end
+
+  def self.valid?(val)
+    val == true || val == false
+  end
 end

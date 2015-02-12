@@ -1,5 +1,6 @@
 module XDR::UnsignedInt
   extend XDR::Concerns::ConvertsToXDR
+  extend XDR::Concerns::IntegerConverter
 
   def self.write(val, io)
     raise XDR::WriteError, "val is not Integer" unless val.is_a?(Integer)

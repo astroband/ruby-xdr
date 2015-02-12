@@ -50,6 +50,9 @@ module XDR
     extend ActiveSupport::Autoload
     autoload :ReadsBytes
     autoload :ConvertsToXDR
+    autoload :IntegerConverter
+    autoload :FloatConverter
+    autoload :StringConverter
   end
 
   class Error < StandardError ; end

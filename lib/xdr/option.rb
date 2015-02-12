@@ -23,4 +23,8 @@ class XDR::Option
     present = XDR::Bool.read(io)
     @child_type.read(io) if present
   end
+
+  def valid?(val)
+    val.nil? || @child_type.valid?(val)
+  end
 end

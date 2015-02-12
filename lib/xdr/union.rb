@@ -20,14 +20,14 @@ class XDR::Union
 
   attribute_method_suffix '!'
 
-  validates_with XDR::UnionValidator
-
   def self.arm_for_switch(switch)
+    raise XDR::InvalidSwitchError unless switch.is_a?(switch_type)
+
     result = switches.fetch(switch, :switch_not_found)
     result = switches.fetch(:default, :switch_not_found) if result == :switch_not_found
 
     if result == :switch_not_found
-      raise XDR::InvalidSwitchError, "Bad switch: #{switch.inspect}"
+      raise XDR::InvalidSwitchError, "Bad switch: #{switch}"
     end
 
     result
@@ -45,6 +45,10 @@ class XDR::Union
     switch_type.write(val.switch, io)
     arm_type = arms[val.arm] || XDR::Void
     arm_type.write(val.get,io)
+  end
+
+  def self.valid?(val)
+    val.is_a?(self)
   end
 
   def initialize(switch=nil, value=:void)
@@ -65,11 +69,15 @@ class XDR::Union
     raise XDR::InvalidValueError unless valid_for_arm_type(value, @arm)
 
     @value = value
+  rescue XDR::EnumNameError
+    raise XDR::InvalidSwitchError, "Bad switch: #{switch}"
   end
 
-  def get
+  def value
     @value unless @value == :void
   end
+
+  alias get value
 
   def attribute!(attr)
     if @arm.to_s != attr
@@ -83,28 +91,9 @@ class XDR::Union
   def valid_for_arm_type(value, arm)
     arm_type = arms[@arm]
 
-    case arm_type
-    when nil
-      value == :void
-    when XDR::Int, XDR::UnsignedInt, XDR::Hyper, XDR::UnsignedHyper ;
-      value.is_a?(Fixnum)
-    when XDR::Float, XDR::Double, XDR::Quadruple ;
-      value.is_a?(Float)
-    when XDR::String, XDR::Opaque, XDR::VarOpaque ;
-      value.is_a?(String)
-    when XDR::Array, XDR::VarArray ;
-      value.is_a?(Array)
-    when XDR::Bool ;
-      value.is_a?(Boolean)
-    when XDR::Option ;
-      value.nil? || valid_for_arm_type(value, arm_type.child_type)
-    else
+    return value == :void if arm_type.nil?
 
-      # if none of the above special cases, the value needs to be descendent
-      # from the arm_type
-
-      value.is_a?(arm_type)
-    end
+    arm_type.valid?(value)
   end
 end
 

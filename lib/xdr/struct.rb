@@ -24,6 +24,10 @@ class XDR::Struct
       type.write(field_val, io)
     end
   end
+  
+  def self.valid?(val)
+    val.is_a?(self)
+  end
 
   def to_xdr
     self.class.to_xdr(self)

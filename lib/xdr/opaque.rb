@@ -1,5 +1,6 @@
 class XDR::Opaque
   include XDR::Concerns::ConvertsToXDR
+  include XDR::Concerns::StringConverter
 
   singleton_class.send(:alias_method, :[], :new)
 

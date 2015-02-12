@@ -21,6 +21,10 @@ class XDR::Enum
       raise XDR::EnumValueError, "Unknown #{name} member: #{value}" if result.blank?
     end
   end
+  
+  def self.valid?(val)
+    val.is_a?(self)
+  end
 
   def self.from_name(name)
     normalized = name.to_s.underscore

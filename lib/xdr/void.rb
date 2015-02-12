@@ -7,4 +7,8 @@ module XDR::Void
   def self.read(io)
     :void
   end
+
+  def self.valid?(val)
+    val == :void
+  end
 end
