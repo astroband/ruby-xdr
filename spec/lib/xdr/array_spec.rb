@@ -23,3 +23,31 @@ describe XDR::Array, "#read" do
     reader.read(io)
   end
 end
+
+describe XDR::Array, "#write" do
+  subject{ XDR::Array[XDR::Int, 2] }
+
+  it "encodes values correctly" do
+    expect(write [1,2]).to eq("\x00\x00\x00\x01\x00\x00\x00\x02")
+    expect(write [1,4]).to eq("\x00\x00\x00\x01\x00\x00\x00\x04")
+  end
+
+  it "raises a WriteError if the value is not the correct length" do
+    expect{ write nil     }.to raise_error(XDR::WriteError)
+    expect{ write []      }.to raise_error(XDR::WriteError)
+    expect{ write [1]     }.to raise_error(XDR::WriteError)
+    expect{ write [1,2,3] }.to raise_error(XDR::WriteError)
+  end
+
+  it "raises a WriteError if a child element is of the wrong type" do
+    expect{ write [nil]      }.to raise_error(XDR::WriteError)
+    expect{ write ["hi"]     }.to raise_error(XDR::WriteError)
+    expect{ write [1,2,"hi"] }.to raise_error(XDR::WriteError)
+  end
+
+  def write(val)
+    io = StringIO.new()
+    subject.write(val, io)
+    io.string
+  end
+end
