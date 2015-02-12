@@ -17,10 +17,10 @@ end
 
 describe XDR::Float, ".write" do
   it "encodes values correctly" do
-    expect(write(0.0)).to eq("\x00\x00\x00\x00")
-    expect(write(-0.0)).to eq("\x80\x00\x00\x00")
-    expect(write(1.0)).to eq("\x3F\x80\x00\x00")
-    expect(write(-1.0)).to eq("\xBF\x80\x00\x00")
+    expect(write(0.0)).to eq_bytes("\x00\x00\x00\x00")
+    expect(write(-0.0)).to eq_bytes("\x80\x00\x00\x00")
+    expect(write(1.0)).to eq_bytes("\x3F\x80\x00\x00")
+    expect(write(-1.0)).to eq_bytes("\xBF\x80\x00\x00")
   end
 
   it "raises a WriteError when the value is not Float" do
@@ -32,6 +32,6 @@ describe XDR::Float, ".write" do
   def write(val)
     io = StringIO.new()
     subject.write(val, io)
-    io.string.force_encoding("ASCII-8BIT")
+    io.string
   end
 end
