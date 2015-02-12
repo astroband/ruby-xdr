@@ -21,3 +21,23 @@ describe XDR::Bool, ".read" do
     subject.read(io)
   end
 end
+
+describe XDR::Bool, ".write" do
+  subject{ XDR::Bool }
+
+  it "encodes values correctly" do
+    expect(write false).to eq("\x00\x00\x00\x00")
+    expect(write true).to eq("\x00\x00\x00\x01")
+  end
+
+  it "raises WriteError if the value is boolean" do
+    expect{ write 1 }.to raise_error XDR::WriteError
+    expect{ write "hello" }.to raise_error XDR::WriteError
+  end
+
+  def write(val)
+    io = StringIO.new()
+    subject.write(val, io)
+    io.string
+  end
+end

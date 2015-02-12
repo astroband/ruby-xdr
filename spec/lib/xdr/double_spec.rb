@@ -15,3 +15,24 @@ describe XDR::Double, ".read" do
     subject.read(io)
   end
 end
+
+describe XDR::Double, ".write" do
+  it "encodes values correctly" do
+    expect(write 0.0).to  eq("\x00\x00\x00\x00\x00\x00\x00\x00")
+    expect(write -0.0).to eq("\x80\x00\x00\x00\x00\x00\x00\x00")
+    expect(write 1.0).to  eq("\x3F\xF0\x00\x00\x00\x00\x00\x00")
+    expect(write -1.0).to eq("\xBF\xF0\x00\x00\x00\x00\x00\x00")
+  end
+
+  it "raises a WriteError when the value is not Float" do
+    expect{ write 3 }.to      raise_error(XDR::WriteError)
+    expect{ write "hi" }.to   raise_error(XDR::WriteError)
+    expect{ write "1.0" }.to  raise_error(XDR::WriteError)
+  end
+
+  def write(val)
+    io = StringIO.new()
+    subject.write(val, io)
+    io.string
+  end
+end
