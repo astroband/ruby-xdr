@@ -55,6 +55,7 @@ module XDR
   class Error < StandardError ; end
   class ReadError < Error ; end
   class EnumValueError < ReadError ; end
+  class EnumNameError < ReadError ; end
   class WriteError < Error ; end
 
   class InvalidSwitchError < Error ; end
