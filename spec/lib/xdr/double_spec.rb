@@ -33,6 +33,6 @@ describe XDR::Double, ".write" do
   def write(val)
     io = StringIO.new()
     subject.write(val, io)
-    io.string
+    io.string.force_encoding("ASCII-8BIT")
   end
 end
