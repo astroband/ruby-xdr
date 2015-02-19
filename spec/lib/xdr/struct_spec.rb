@@ -72,6 +72,16 @@ describe XDR::Struct, "#to_xdr" do
     subject.code = nil
     expect{ result }.to raise_error(XDR::WriteError)
   end
+
+  it "produces hex" do
+    result = subject.to_xdr(:hex)
+    expect(result).to eq("000000030000000949742062726f6b6521000000")
+  end
+
+  it "produces base64" do
+    result = subject.to_xdr(:base64)
+    expect(result).to eq("AAAAAwAAAAlJdCBicm9rZSEAAAA=")
+  end
 end
 
 
