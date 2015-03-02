@@ -6,7 +6,9 @@ module XDR::DSL::Union
   end
 
   def switch(switch, arm=nil)
-    # TODO: confirm switch is a member of the switch_on enum
+    raise ArgumentError, "`switch_on` not defined yet" if self.switch_type.nil?
+
+    switch = normalize_switch(switch)
     self.switches = self.switches.merge(switch => arm)
   end
 
@@ -15,5 +17,14 @@ module XDR::DSL::Union
 
     self.arms = self.arms.merge(name => type)
     define_attribute_methods name
+  end
+
+  private
+  def normalize_switch(switch)
+    case switch
+    when self.switch_type ; switch
+    when :default ;         switch
+    else ;                  self.switch_type.from_name(switch)
+    end
   end
 end

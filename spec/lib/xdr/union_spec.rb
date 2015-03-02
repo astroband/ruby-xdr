@@ -203,8 +203,8 @@ module UnionSpec
   class UnforfivingResult < XDR::Union
     switch_on ResultType, :type
 
-    switch ResultType.ok
-    switch ResultType.error, :message
+    switch :ok
+    switch :error, :message
 
     attribute :message, XDR::String[]
   end
