@@ -17,6 +17,7 @@ module XDR
 
   MAX_SIZE = 2**32 - 1
 
+  autoload :Namespace
   autoload :RPC
   autoload :DSL
 
