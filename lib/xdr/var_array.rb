@@ -1,11 +1,11 @@
 class XDR::VarArray
   include XDR::Concerns::ConvertsToXDR
-  include XDR::Concerns::StringConverter
+  include XDR::Concerns::ArrayConverter
 
   singleton_class.send(:alias_method, :[], :new)
 
-  def initialize(type, length=XDR::MAX_SIZE)
-    @type   = type
+  def initialize(child_type, length=XDR::MAX_SIZE)
+    @child_type   = child_type
     @length = length
   end
 
@@ -18,7 +18,7 @@ class XDR::VarArray
 
     XDR::Int.write(length, io)
     val.each do |member|
-      @type.write member, io
+      @child_type.write member, io
     end
   end
 
@@ -29,6 +29,10 @@ class XDR::VarArray
       raise XDR::ReadError, "VarArray length #{length} is greater than max #{@length}"
     end
 
-    length.times.map{ @type.read(io) }
+    length.times.map{ @child_type.read(io) }
+  end
+
+  def valid?(val)
+    super(val) && val.length <= @length
   end
 end

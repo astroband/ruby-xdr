@@ -1,11 +1,12 @@
 class XDR::Array
   include XDR::Concerns::ConvertsToXDR
+  include XDR::Concerns::ArrayConverter
 
   singleton_class.send(:alias_method, :[], :new)
 
-  def initialize(type, length)
-    @type   = type
-    @length = length
+  def initialize(child_type, length)
+    @child_type = child_type
+    @length     = length
   end
 
   def write(val, io)
@@ -13,15 +14,15 @@ class XDR::Array
     raise XDR::WriteError, "array must be #{@length} long, was #{val.length}" if val.length != @length
 
     @length.times do |i|
-      @type.write val[i], io
+      @child_type.write val[i], io
     end
   end
 
   def read(io)
-    @length.times.map{ @type.read(io) }
+    @length.times.map{ @child_type.read(io) }
   end
 
   def valid?(val)
-    val.is_a?(Array)
+    super(val) && val.length == @length
   end
 end

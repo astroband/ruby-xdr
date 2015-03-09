@@ -54,6 +54,7 @@ module XDR
     autoload :IntegerConverter
     autoload :FloatConverter
     autoload :StringConverter
+    autoload :ArrayConverter
   end
 
   class Error < StandardError ; end

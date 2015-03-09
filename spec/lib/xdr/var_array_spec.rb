@@ -26,7 +26,6 @@ end
 
 
 describe XDR::VarArray, "#write" do
-
   subject{ XDR::VarArray[XDR::Int, 3] }
 
   it "encodes values correctly" do
@@ -43,5 +42,30 @@ describe XDR::VarArray, "#write" do
     io = StringIO.new
     subject.write(val,io)
     io.string
+  end
+end
+
+describe XDR::VarArray, "#valid?" do
+  subject{ XDR::VarArray[XDR::Int, 3] }
+
+  it "accepts an empty array" do
+    expect(subject.valid?([])).to be_truthy
+  end
+
+  it "accepts a filled array provided each element passes the child_type validator" do
+    expect(subject.valid?([1])).to be_truthy
+    expect(subject.valid?([1,2])).to be_truthy
+  end
+
+  it "rejects a filled array if any element is rejected by the child_type validator" do
+    expect(subject.valid?(["hello"])).to be_falsey
+    expect(subject.valid?([1, "hello"])).to be_falsey
+    expect(subject.valid?([1, "hello", 1])).to be_falsey
+    expect(subject.valid?([1, nil])).to be_falsey
+    expect(subject.valid?([nil])).to be_falsey
+  end
+
+  it "rejects arrays that are too large" do
+    expect(subject.valid?([1,2,3,4])).to be_falsey
   end
 end

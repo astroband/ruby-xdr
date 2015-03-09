@@ -51,3 +51,23 @@ describe XDR::Array, "#write" do
     io.string
   end
 end
+
+describe XDR::Array, "#valid?" do
+  subject{ XDR::Array[XDR::Int, 2] }
+
+  it "rejects an empty array" do
+    expect(subject.valid?([])).to be_falsey
+  end
+
+  it "accepts a filled array provided each element passes the child_type validator" do
+    expect(subject.valid?([1,2])).to be_truthy
+    expect(subject.valid?([2,3])).to be_truthy
+  end
+
+  it "rejects a filled array if any element is rejected by the child_type validator" do
+    expect(subject.valid?(["hello", "hello"])).to be_falsey
+    expect(subject.valid?([1, "hello"])).to be_falsey
+    expect(subject.valid?([1, nil])).to be_falsey
+    expect(subject.valid?([nil])).to be_falsey
+  end
+end
