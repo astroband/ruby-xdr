@@ -3,6 +3,8 @@ module XDR::DSL::Union
     raise ArgumentError if self.switch_type.present?
     self.switch_type = type
     self.switch_name = name
+
+    alias_method name, :switch
   end
 
   def switch(switch, arm=nil)

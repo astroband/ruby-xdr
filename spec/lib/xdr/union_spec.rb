@@ -168,6 +168,23 @@ describe XDR::Union, "#set" do
   end
 end
 
+describe XDR::Union, "#switch" do
+  subject{ UnionSpec::Result.new }
+
+  it "reflects the set switch" do
+    subject.set :ok
+    expect( subject.switch ).to eq(UnionSpec::ResultType.ok)
+    subject.set :error, "broke"
+    expect( subject.switch ).to eq(UnionSpec::ResultType.error)
+    subject.set :nonsense
+    expect( subject.switch ).to eq(UnionSpec::ResultType.nonsense)
+  end
+
+  it "is aliased to the union's switch_name" do
+    subject.set :ok
+    expect( subject.type ).to eq(subject.switch)
+  end
+end
 
 module UnionSpec
   class ResultType < XDR::Enum
