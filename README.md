@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-```
+```ruby
 # Reading/writing a primitive values
 XDR::Bool.to_xdr(false)                # => "\x00\x00\x00\x00"
 XDR::Bool.from_xdr("\x00\x00\x00\x01") # => true
