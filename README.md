@@ -90,6 +90,12 @@ Since autoloading is not thread-safe, neither is code generated from xdrgen. To
 work around this, any module including `XDR::Namespace` can be forced to load
 all of it's children by calling `load_all!` on the module.
 
+## Code generation
+
+ruby-xdr by itself does not have any ability to parse XDR IDL files and produce a parser for your custom data types.  Instead, that is the responsibility of [xdrgen](http://github.com/stellar/xdrgen).  xdrgen will take your .x files and produce a set of ruby files that target this library to allow for your own custom types.
+
+See [ruby-stellar-core](http://github.com/stellar/ruby-stellar-core) for an example (check out the generated directory)
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/xdr/fork )
