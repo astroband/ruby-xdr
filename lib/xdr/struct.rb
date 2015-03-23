@@ -31,6 +31,12 @@ class XDR::Struct
     val.is_a?(self)
   end
 
+  # 
+  # Serializes struct to xdr, return a string of bytes
+  # 
+  # @param format=:raw [Symbol] The encoding used for the bytes produces, one of (:raw, :hex, :base64)
+  # 
+  # @return [String] The encoded bytes of this struct
   def to_xdr(format=:raw)
     raw = self.class.to_xdr(self)
 
