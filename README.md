@@ -94,11 +94,11 @@ all of it's children by calling `load_all!` on the module.
 
 ruby-xdr by itself does not have any ability to parse XDR IDL files and produce a parser for your custom data types.  Instead, that is the responsibility of [xdrgen](http://github.com/stellar/xdrgen).  xdrgen will take your .x files and produce a set of ruby files that target this library to allow for your own custom types.
 
-See [ruby-stellar-core](http://github.com/stellar/ruby-stellar-core) for an example (check out the generated directory)
+See [ruby-stellar-base](http://github.com/stellar/ruby-stellar-base) for an example (check out the generated directory)
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/xdr/fork )
+1. Fork it ( https://github.com/stellar/ruby-xdr/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
