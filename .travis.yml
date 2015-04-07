@@ -8,4 +8,4 @@ rvm:
 - jruby-head
 notifications:
   slack:
-    secure: yW9cyABKLeihw2KNiI7h0la2ghnj4aH06md8q1rqXuLZmOz2u2wiThF92vaWVA6xE3MBjEKWMS/qpQAvK7YJBQYZQxUVnLZWGzzt6k2VkMqqmy8gtZR5DhuThrvdVR8r4zOeoBe6NxhQP8lkC/efTip9eTMdquM7FIvRofQGdtI=
+    secure: fXYggrDRoLB/4yvyW0kWwyrV5yWa/GC0btPyGu7Hx6ZOaXDC+ejiXSfx7nRyY+uZBs5UF12O4gkUXwBbnWDT5JtQRxzZd5s0cyeGQfAakALexI+FuR2jDcV1prCCaYI4IYoUt61MlfDmuCYVm8hGZ3qsgk/GPHHPnZ8a1FBd2ls=
