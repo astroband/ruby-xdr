@@ -3,7 +3,6 @@ module XDR::DSL::Enum
   def member(name, value)
     raise ArgumentError, "#{self} is sealed" if self.sealed
     raise ArgumentError, "#{value} is not Fixnum" unless value.is_a?(Fixnum)
-    raise ArgumentError, "#{value} is not >= 0" unless value >= 0
     raise ArgumentError, "#{value} is already used" unless 
 
     name = name.to_s.underscore
