@@ -7,10 +7,15 @@ class XDR::Struct
   extend XDR::Concerns::ConvertsToXDR
   extend XDR::DSL::Struct
 
+  attribute_method_prefix 'read_'
+  attribute_method_suffix 'write_'
+  
   class_attribute :fields
   self.fields = ActiveSupport::OrderedHash.new
 
   validates_with XDR::StructValidator
+
+  attr_reader :attributes
 
   def self.read(io)
     new.tap do |result|
@@ -26,16 +31,22 @@ class XDR::Struct
       type.write(field_val, io)
     end
   end
-  
+
   def self.valid?(val)
     val.is_a?(self)
   end
 
-  # 
+  def initialize(attributes={})
+    @attributes = {}
+    super
+  end
+
+
+  #
   # Serializes struct to xdr, return a string of bytes
-  # 
+  #
   # @param format=:raw [Symbol] The encoding used for the bytes produces, one of (:raw, :hex, :base64)
-  # 
+  #
   # @return [String] The encoded bytes of this struct
   def to_xdr(format=:raw)
     raw = self.class.to_xdr(self)
@@ -44,8 +55,25 @@ class XDR::Struct
     when :raw ;     raw
     when :hex ;     raw.unpack("H*").first
     when :base64 ;  Base64.strict_encode64(raw)
-    else ; 
+    else ;
       raise ArgumentError, "Invalid format #{format.inspect}; must be :raw, :hex, or :base64"
     end
+  end
+
+  #
+  # Compares two structs for equality
+  #
+  def == (other)
+    return false unless other.is_a?(self.class)
+    other.attributes == self.attributes
+  end
+
+
+  def read_attribute(attr)
+    @attributes[attr]
+  end
+
+  def write_attribute(attr, value)
+    @attributes[attr] = value
   end
 end

@@ -87,6 +87,16 @@ class XDR::Union
     get
   end
 
+
+  #
+  # Compares two unions for equality
+  #
+  def == (other)
+    return false unless other.is_a?(self.class)
+    return false unless other.switch == self.switch
+    other.value == self.value
+  end
+
   private
   def valid_for_arm_type(value, arm)
     arm_type = arms[@arm]
@@ -96,6 +106,3 @@ class XDR::Union
     arm_type.valid?(value)
   end
 end
-
-
-
