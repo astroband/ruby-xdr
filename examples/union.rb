@@ -27,10 +27,3 @@ r.get # => nil
 
 r.set(:nonsense)
 r.get # => nil
-
-
-# TODO
-case r
-when ResultType::OK ; puts "i'm ok!"
-when ResultType::ERROR ; puts "broken!"
-end

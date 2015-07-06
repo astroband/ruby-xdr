@@ -21,7 +21,11 @@ class XDR::Union
   attribute_method_suffix '!'
 
   def self.arm_for_switch(switch)
-    raise XDR::InvalidSwitchError unless switch.is_a?(switch_type)
+    begin
+      switch = normalize_switch switch
+    rescue ArgumentError => e
+      raise XDR::InvalidSwitchError, e.message
+    end
 
     result = switches.fetch(switch, :switch_not_found)
     result = switches.fetch(:default, :switch_not_found) if result == :switch_not_found
@@ -31,6 +35,19 @@ class XDR::Union
     end
 
     result
+  end
+
+  def self.normalize_switch(switch)
+    case
+    when switch.is_a?(self.switch_type)
+      switch
+    when self.switch_type.valid?(switch)
+      switch
+    when self.switch_type.respond_to?(:from_name)
+      self.switch_type.from_name(switch)
+    else
+      raise ArgumentError, "Cannot normalize switch: #{switch.inspect} to type: #{self.switch_type}"
+    end
   end
 
   def self.read(io)
@@ -51,11 +68,11 @@ class XDR::Union
     val.is_a?(self)
   end
 
-  def initialize(switch=nil, value=:void)
+  def initialize(switch=:__unset__, value=:void)
     @switch   = nil
     @arm      = nil
     @value    = nil
-    set(switch, value) if switch
+    set(switch, value) unless switch == :__unset__
   end
 
   def to_xdr
@@ -63,7 +80,7 @@ class XDR::Union
   end
 
   def set(switch, value=:void)
-    @switch = switch.is_a?(switch_type) ? switch : switch_type.from_name(switch)
+    @switch = self.class.normalize_switch switch
     @arm    = self.class.arm_for_switch @switch
 
     raise XDR::InvalidValueError unless valid_for_arm_type(value, @arm)
