@@ -9,7 +9,7 @@ class XDR::Struct
 
   attribute_method_prefix 'read_'
   attribute_method_suffix 'write_'
-  
+
   class_attribute :fields
   self.fields = ActiveSupport::OrderedHash.new
 
@@ -68,6 +68,14 @@ class XDR::Struct
     other.attributes == self.attributes
   end
 
+  def eql? (other)
+    return false unless other.is_a?(self.class)
+    other.attributes.eql? self.attributes
+  end
+
+  def hash
+    [self.class, self.attribues].hash
+  end
 
   def read_attribute(attr)
     @attributes[attr]

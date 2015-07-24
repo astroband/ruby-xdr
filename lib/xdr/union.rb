@@ -114,6 +114,16 @@ class XDR::Union
     other.value == self.value
   end
 
+  def eql?(other)
+    return false unless other.is_a?(self.class)
+    return false unless other.switch.eql? self.switch
+    other.value.eql? self.value
+  end
+  
+  def hash
+    [self.class, self.switch, self.value].hash
+  end
+
   private
   def valid_for_arm_type(value, arm)
     arm_type = arms[@arm]
