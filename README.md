@@ -1,5 +1,8 @@
 # XDR, for Ruby
 
+[![Build Status](https://travis-ci.org/stellar/ruby-xdr.svg?branch=master)](https://travis-ci.org/stellar/ruby-xdr)
+[![Code Climate](https://codeclimate.com/github/stellar/ruby-xdr/badges/gpa.svg)](https://codeclimate.com/github/stellar/ruby-xdr)
+
 XDR is an open data format, specified in [RFC 4506](http://tools.ietf.org/html/rfc4506.html).  This library provides a way to read and write XDR data from ruby.  It can read/write all of the primitive XDR types and also provides facilities to define readers for the compound XDR types (enums, structs and unions)
 
 ## Installation
