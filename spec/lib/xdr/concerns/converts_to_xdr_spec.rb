@@ -23,14 +23,42 @@ describe XDR::Concerns::ConvertsToXDR, "#to_xdr" do
     expect(subject).to receive(:write).with("hiya", kind_of(StringIO))
     subject.to_xdr("hiya")
   end
+
+  context "using an actual xdr type" do
+    subject{ XDR::Opaque.new(4) }
+
+    it "encodes to hex" do
+      r = subject.to_xdr("\x00\x01\x02\x03", "hex")
+      expect(r).to eql("00010203")
+    end
+
+    it "encodes to base64" do
+      r = subject.to_xdr("\x00\x01\x02\x03", "base64")
+      expect(r).to eql("AAECAw==")
+    end
+  end
 end
 
 describe XDR::Concerns::ConvertsToXDR, "#from_xdr" do
   subject{ ImplementedConvertible.new }
 
-  it "calls through to write" do
+  it "calls through to read" do
     expect(subject).to receive(:read).with(kind_of(StringIO))
     subject.from_xdr("hiya")
+  end
+
+  context "using an actual xdr type" do
+    subject{ XDR::Opaque.new(4) }
+
+    it "decodes from hex" do
+      r = subject.from_xdr("00010203", "hex")
+      expect(r).to eql("\x00\x01\x02\x03")
+    end
+
+    it "decodes from base64" do
+      r = subject.from_xdr("AAECAw==", "base64")
+      expect(r).to eql("\x00\x01\x02\x03")
+    end
   end
 end
 

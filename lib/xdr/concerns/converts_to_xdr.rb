@@ -1,3 +1,5 @@
+require 'base64'
+
 module XDR::Concerns::ConvertsToXDR
   include XDR::Concerns::ReadsBytes
 
@@ -37,11 +39,19 @@ module XDR::Concerns::ConvertsToXDR
   # @param val [Object] the value to serialize
   # 
   # @return [String] the produced bytes
-  def to_xdr(val)
-    StringIO.
+  def to_xdr(val, encoding='raw')
+    raw = StringIO.
       new.
       tap{|io| write(val, io)}.
       string.force_encoding("ASCII-8BIT")
+
+    case encoding
+    when 'raw' ; raw
+    when 'base64' ; Base64.strict_encode64(raw)
+    when 'hex' ; raw.unpack("H*").first
+    else
+      raise  ArgumentError, "Invalid encoding #{encoding.inspect}: must be 'raw', 'base64', or 'hex'"
+    end
   end
   
   # 
@@ -50,8 +60,16 @@ module XDR::Concerns::ConvertsToXDR
   # @param string [String] the bytes to read from
   # 
   # @return [Object] the deserialized value
-  def from_xdr(string)
-    io = StringIO.new(string)
+  def from_xdr(string, encoding='raw')
+    raw = case encoding
+          when 'raw' ; string
+          when 'base64' ; Base64.strict_decode64(string)
+          when 'hex' ; [string].pack("H*")
+          else
+            raise  ArgumentError, "Invalid encoding #{encoding.inspect}: must be 'raw', 'base64', or 'hex'"
+          end
+
+    io = StringIO.new(raw)
     read(io)
   end
 
