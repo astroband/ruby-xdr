@@ -11,3 +11,7 @@ bumps.  A breaking change will get clearly notified in this log.
 ### Added
 - the `to_xdr` helpers can take a second parameter that will encode the resulting output to hex or base64 when requested.
 - the `from_xdr` helpers can take a second parameter that will trigger a decode from hex or base64 of the provided string before decoding from xdr.
+
+### Changed
+
+- `from_xdr` raises an ArgumentError when the input data is not fully consumed

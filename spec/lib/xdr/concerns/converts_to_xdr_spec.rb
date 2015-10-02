@@ -43,8 +43,9 @@ describe XDR::Concerns::ConvertsToXDR, "#from_xdr" do
   subject{ ImplementedConvertible.new }
 
   it "calls through to read" do
-    expect(subject).to receive(:read).with(kind_of(StringIO))
+    allow(subject).to receive(:read).and_call_original
     subject.from_xdr("hiya")
+    expect(subject).to have_received(:read).with(kind_of(StringIO))
   end
 
   context "using an actual xdr type" do
@@ -59,6 +60,10 @@ describe XDR::Concerns::ConvertsToXDR, "#from_xdr" do
       r = subject.from_xdr("AAECAw==", "base64")
       expect(r).to eql("\x00\x01\x02\x03")
     end
+
+    it "raises an ArgumentError if the input is not fully consumed" do
+      expect{ subject.from_xdr("\x00\x00\x00\x00\x00") }.to raise_error(ArgumentError)
+    end
   end
 end
 
@@ -70,7 +75,7 @@ class ImplementedConvertible
   include XDR::Concerns::ConvertsToXDR
 
   def read(io)
-    read_bytes(4)
+    read_bytes(io, 4)
   end
 
   def write(val, io)

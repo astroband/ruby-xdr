@@ -70,7 +70,13 @@ module XDR::Concerns::ConvertsToXDR
           end
 
     io = StringIO.new(raw)
-    read(io)
+    result = read(io)
+
+    if io.pos != io.length
+      raise  ArgumentError, "Input string not fully consumed! are you decoding the right xdr type?"
+    end
+
+    result
   end
 
   private
