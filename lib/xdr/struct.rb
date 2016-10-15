@@ -74,7 +74,7 @@ class XDR::Struct
   end
 
   def hash
-    [self.class, self.attribues].hash
+    [self.class, self.attributes].hash
   end
 
   def read_attribute(attr)
