@@ -15,7 +15,7 @@ describe XDR::DSL::Enum, "#member" do
     expect(subject.members[:two]).to eq(subject.two)
   end
 
-  it "raises ArgumentError if a non-fixnum value is used" do
+  it "raises ArgumentError if a non-integer value is used" do
     expect {
       Class.new(XDR::Enum) do
         member :one, "hi!"
