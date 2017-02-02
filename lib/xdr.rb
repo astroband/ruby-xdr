@@ -10,7 +10,6 @@ require "active_support/core_ext/hash/indifferent_access"
 require "active_support/core_ext/string/inflections"
 require "active_support/logger"
 require "active_support/ordered_hash"
-require "backports/2.1.0"
 
 module XDR
   extend ActiveSupport::Autoload
