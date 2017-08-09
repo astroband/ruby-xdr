@@ -15,6 +15,13 @@ describe XDR::VarOpaque, "#read" do
     expect{ read "\x00\x00\x00\x03\x00\x00\x00\x00" }.to raise_error(XDR::ReadError)
   end
 
+
+  it "raises a ReadError when the padding isn't zeros" do
+    expect{ read "\x00\x00\x00\x01\x01\x00\x00\x01" }.to raise_error(XDR::ReadError)
+    expect{ read "\x00\x00\x00\x01\x01\x00\x01\x00" }.to raise_error(XDR::ReadError)
+    expect{ read "\x00\x00\x00\x01\x01\x01\x00\x00" }.to raise_error(XDR::ReadError)
+  end
+
   def read(str)
     io = StringIO.new(str)
     subject.read(io)

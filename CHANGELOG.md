@@ -6,6 +6,11 @@ file.  This project adheres to [Semantic Versioning](http://semver.org/).
 As this project is pre 1.0, breaking changes may happen for minor version
 bumps.  A breaking change will get clearly notified in this log.
 
+## [Unreleased](https://github.com/stellar/ruby-stellar-base/compare/v1.0.0...master)
+
+### Fixed
+- Padding bytes are now properly validated when reading xdr values.  According to the XDR spec, padding must be zeros.
+
 ## [1.0.0](https://github.com/stellar/ruby-stellar-base/compare/v0.1.0...v1.0.0)
 
 ### Added
