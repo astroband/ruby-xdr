@@ -45,7 +45,7 @@ module XDR::Concerns::ConvertsToXDR
       tap{|io| write(val, io)}.
       string.force_encoding("ASCII-8BIT")
 
-    case encoding
+    case encoding.to_s
     when 'raw' ; raw
     when 'base64' ; Base64.strict_encode64(raw)
     when 'hex' ; raw.unpack("H*").first

@@ -75,8 +75,14 @@ class XDR::Union
     set(switch, value) unless switch == :__unset__
   end
 
-  def to_xdr
-    self.class.to_xdr self
+  #
+  # Serializes struct to xdr, return a string of bytes
+  #
+  # @param format=:raw [Symbol] The encoding used for the bytes produces, one of (:raw, :hex, :base64)
+  #
+  # @return [String] The encoded bytes of this struct
+  def to_xdr(format=:raw)
+    self.class.to_xdr(self, format)
   end
 
   def set(switch, value=:void)

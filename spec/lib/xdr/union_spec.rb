@@ -186,6 +186,16 @@ describe XDR::Union, "#switch" do
   end
 end
 
+describe XDR::Union, "#to_xdr" do
+  subject { UnionSpec::Result.new(:error, "spec error") }
+
+  context "with base64 encoding" do
+    it "returns base64 encoding of union's XDR" do
+      expect(subject.to_xdr(:base64)).to eq("AAAAAQAAAApzcGVjIGVycm9yAAA=")
+    end
+  end
+end
+
 module UnionSpec
   class ResultType < XDR::Enum
     member :ok, 0
