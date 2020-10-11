@@ -95,9 +95,11 @@ all of it's children by calling `load_all!` on the module.
 
 ## Code generation
 
-ruby-xdr by itself does not have any ability to parse XDR IDL files and produce a parser for your custom data types.  Instead, that is the responsibility of [xdrgen](http://github.com/stellar/xdrgen).  xdrgen will take your .x files and produce a set of ruby files that target this library to allow for your own custom types.
+ruby-xdr by itself does not have any ability to parse XDR IDL files and produce a parser for your custom 
+data types.  Instead, that is the responsibility of [xdrgen](http://github.com/stellar/xdrgen). `xdrgen` will 
+take your `.x` files and produce a set of ruby files that target this library to allow for your own custom types.
 
-See [ruby-stellar-base](http://github.com/stellar/ruby-stellar-base) for an example (check out the generated directory)
+See [ruby-stellar-base](http://github.com/astroband/ruby-stellar-sdk/tree/master/base/generated) for an example.
 
 ## Contributing
 

@@ -1,4 +1,10 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-# Specify your gem's dependencies in xdr.gemspec
-gemspec
+gemspec development_group: :test
+
+group :development do
+  gem "break"
+  gem "guard-rspec"
+  gem "pry"
+  gem "yard"
+end
