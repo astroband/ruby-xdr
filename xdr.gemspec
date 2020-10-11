@@ -8,7 +8,6 @@ Gem::Specification.new do |spec|
   spec.email         = ["scott@stellar.org"]
   spec.summary       = "XDR Helper Library"
   spec.homepage      = "https://github.com/stellar/ruby-xdr"
-  spec.required_ruby_version = '>= 2.2.0'
   spec.license       = "Apache-2.0"
 
   spec.files = Dir["lib/**/*"]
@@ -22,6 +21,7 @@ Gem::Specification.new do |spec|
     "source_code_uri" => "https://github.com/stellar/ruby-xdr/tree/v#{spec.version}"
   }
 
+  spec.required_ruby_version = ">= 2.4.0"
 
   spec.add_dependency "activesupport", ">= 4.2", "< 7.0"
   spec.add_dependency "activemodel", ">= 4.2", "< 7.0"
