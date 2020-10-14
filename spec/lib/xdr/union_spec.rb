@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe XDR::Union, ".read" do
   
   subject{ UnionSpec::Result }
@@ -58,16 +56,39 @@ describe XDR::Union, ".read" do
 
 end
 
-describe XDR::Union, "#attribute!" do
-  subject{ UnionSpec::Result.new(:ok) }
+describe XDR::Union, "#attribute" do
+  subject(:union) { UnionSpec::Result.new }
 
-  it "raises an ArmNotSetError when the attribute requested has not been populated" do
-    expect{ subject.message! }.to raise_error XDR::ArmNotSetError
+  it "returns nil when no arm is selected" do
+    expect(union.message).to be_nil
   end
 
-  it "returns the underyling value when the arm is populated" do
-    subject.set(:error, "it all went bad")
-    expect(subject.message!).to eq("it all went bad")
+  it "returns nil when non-matching arm is selected" do
+    union.set :ok
+    expect(union.message).to be_nil
+  end
+
+  it "returns the underyling value when the correct arm is selected" do
+    union.set :error, "it all went bad"
+    expect(union.message).to eq("it all went bad")
+  end
+end
+
+describe XDR::Union, "#attribute!" do
+  subject(:union) { UnionSpec::Result.new }
+
+  it "raises XDR::ArmNotSetError when no arm is selected" do
+    expect { union.message! }.to raise_error(XDR::ArmNotSetError)
+  end
+
+  it "raises XDR::ArmNotSetError when non-matching arm is selected" do
+    union.set :ok
+    expect { union.message! }.to raise_error(XDR::ArmNotSetError)
+  end
+
+  it "returns the underyling value when the correct arm is selected" do
+    union.set :error, "it all went bad"
+    expect(union.message!).to eq("it all went bad")
   end
 end
 

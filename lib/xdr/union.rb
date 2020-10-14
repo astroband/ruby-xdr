@@ -102,14 +102,17 @@ class XDR::Union
 
   alias get value
 
-  def attribute!(attr)
-    if @arm.to_s != attr
-      raise XDR::ArmNotSetError, "#{attr} is not the set arm"
-    end
+  def attribute(attr)
+    return nil unless @arm.to_s == attr
 
     get
   end
 
+  def attribute!(attr)
+    raise XDR::ArmNotSetError, "#{attr} is not the set arm" unless @arm.to_s == attr
+
+    get
+  end
 
   #
   # Compares two unions for equality
