@@ -36,6 +36,11 @@ describe XDR::Concerns::ConvertsToXDR, "#to_xdr" do
       r = subject.to_xdr("\x00\x01\x02\x03", "base64")
       expect(r).to eql("AAECAw==")
     end
+
+    it "understands encoding in symbol form" do
+      r = subject.to_xdr("\x00\x01\x02\x03", :base64)
+      expect(r).to eql("AAECAw==")
+    end
   end
 end
 
@@ -58,6 +63,11 @@ describe XDR::Concerns::ConvertsToXDR, "#from_xdr" do
 
     it "decodes from base64" do
       r = subject.from_xdr("AAECAw==", "base64")
+      expect(r).to eql("\x00\x01\x02\x03")
+    end
+
+    it "understands encoding in symbol form" do
+      r = subject.from_xdr("AAECAw==", :base64)
       expect(r).to eql("\x00\x01\x02\x03")
     end
 
