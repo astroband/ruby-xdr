@@ -1,14 +1,13 @@
-require 'bundler/setup'
-Bundler.setup
-require 'simplecov'
-SimpleCov.start
+# frozen_string_literal: true
 
-require 'pry'
-require 'xdr'
+require "simplecov"
+SimpleCov.start do
+  enable_coverage :branch
+end
 
-__dir__ = File.dirname(__FILE__)
+require "xdr"
 
-Dir["#{__dir__}/support/**/*.rb"].each { |f| require f }
+Dir["#{__dir__}/support/**/*.rb"].sort.each { |f| require f }
 
 RSpec.configure do |config|
   
