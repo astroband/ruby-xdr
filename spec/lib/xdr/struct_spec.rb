@@ -1,11 +1,10 @@
-require 'spec_helper'
+require "spec_helper"
 
 module StructSpec
   class SampleError < XDR::Struct
     attribute :code, XDR::Int
-    attribute :msg,  XDR::String[100]
+    attribute :msg, XDR::String[100]
   end
-
 
   # class SampleEnvelope < XDR::Struct
   #   attribute :body,  XDR::VarOpaque[]
@@ -18,10 +17,9 @@ module StructSpec
   # end
 end
 
-
 describe XDR::Struct, "creation" do
-  let(:args){ {} }
-  subject{ StructSpec::SampleError.new(args) }
+  let(:args) { {} }
+  subject { StructSpec::SampleError.new(args) }
 
   context "with no args" do
     it "creates an instance" do
@@ -30,7 +28,7 @@ describe XDR::Struct, "creation" do
   end
 
   context "with valid args" do
-    let(:args){{code: 3, msg: "It broke!"}}
+    let(:args) { {code: 3, msg: "It broke!"} }
 
     it "assigns values correctly" do
       expect(subject.code).to eq(3)
@@ -40,7 +38,7 @@ describe XDR::Struct, "creation" do
 end
 
 describe XDR::Struct, "attribute assignment" do
-  subject{ StructSpec::SampleError.new }
+  subject { StructSpec::SampleError.new }
 
   it "roundtrips correctly" do
     expect(subject.code).to be_nil
@@ -54,13 +52,12 @@ describe XDR::Struct, "attribute assignment" do
   end
 end
 
-
 describe XDR::Struct, "valid?"
 describe XDR::Struct, "optional members"
 
 describe XDR::Struct, "#to_xdr" do
-  subject{ StructSpec::SampleError.new({code: 3, msg: "It broke!"}) }
-  let(:result){ subject.to_xdr }
+  subject { StructSpec::SampleError.new({code: 3, msg: "It broke!"}) }
+  let(:result) { subject.to_xdr }
 
   it "serialized each field in order" do
     expect(result[0...4]).to eq("\x00\x00\x00\x03")
@@ -70,7 +67,7 @@ describe XDR::Struct, "#to_xdr" do
 
   it "raises an exception if the struct is not valid" do
     subject.code = nil
-    expect{ result }.to raise_error(XDR::WriteError)
+    expect { result }.to raise_error(XDR::WriteError)
   end
 
   it "produces hex" do
@@ -84,14 +81,13 @@ describe XDR::Struct, "#to_xdr" do
   end
 end
 
-
 describe XDR::Struct, ".read" do
-  subject{ StructSpec::SampleError }
-  let(:result){ read "\x00\x00\x00\x01\x00\x00\x00\x0812345678" }
+  subject { StructSpec::SampleError }
+  let(:result) { read "\x00\x00\x00\x01\x00\x00\x00\x0812345678" }
   it "decodes values correctly" do
-    expect( result ).to be_a(subject)
-    expect( result.code  ).to eq(1)
-    expect( result.msg  ).to eq("12345678")
+    expect(result).to be_a(subject)
+    expect(result.code).to eq(1)
+    expect(result.msg).to eq("12345678")
   end
 
   def read(str)

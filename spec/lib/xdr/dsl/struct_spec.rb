@@ -1,5 +1,4 @@
-require 'spec_helper'
-
+require "spec_helper"
 
 describe XDR::DSL::Struct, "#attribute" do
   subject do
@@ -9,14 +8,11 @@ describe XDR::DSL::Struct, "#attribute" do
     end
   end
 
-
   it "adds to the fields collection of the class" do
     expect(subject.fields.length).to eq(2)
     expect(subject.fields[:attr1]).to eq(XDR::Int)
     expect(subject.fields[:attr2]).to be_a(XDR::String)
   end
-
-
 
   it "raises ArgumentError if a non-convertible type is used" do
     expect do
@@ -25,5 +21,4 @@ describe XDR::DSL::Struct, "#attribute" do
       end
     end.to raise_error(ArgumentError)
   end
-
 end

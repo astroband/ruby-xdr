@@ -4,7 +4,7 @@ class XDR::VarOpaque
 
   singleton_class.send(:alias_method, :[], :new)
 
-  def initialize(length=XDR::MAX_SIZE)
+  def initialize(length = XDR::MAX_SIZE)
     @length = length
   end
 
@@ -31,6 +31,6 @@ class XDR::VarOpaque
 
     # read and return length bytes
     # throw away padding bytes
-    read_bytes(io, length).tap{ read_zeros(io, padding) }
+    read_bytes(io, length).tap { read_zeros(io, padding) }
   end
 end

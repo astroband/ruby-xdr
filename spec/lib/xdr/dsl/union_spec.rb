@@ -1,23 +1,21 @@
-require 'spec_helper'
-
+require "spec_helper"
 
 describe XDR::DSL::Union, "#switch" do
-
   it "allows symbols in switch declarations" do
+    result_type = Class.new(XDR::Enum) do
+      member :ok, 0
+      member :error, 1
+      seal
+    end
+
     expect do
       klass = Class.new(XDR::Union) do
-        switch_on ResultType, :type
+        switch_on result_type, :type
         switch :ok
       end
 
       klass.new(:ok)
     end.to_not raise_error
-  end
-
-  class ResultType < XDR::Enum
-    member :ok, 0
-    member :error, 1
-    seal
   end
 end
 
@@ -33,9 +31,9 @@ describe XDR::DSL::Union, "#switch_on" do
       end
     end.to_not raise_error
 
-    expect{ klass.new(0) }.to_not raise_error
-    expect{ klass.new(1) }.to_not raise_error
-    expect{ klass.new(2) }.to raise_error(XDR::InvalidSwitchError)
+    expect { klass.new(0) }.to_not raise_error
+    expect { klass.new(1) }.to_not raise_error
+    expect { klass.new(2) }.to raise_error(XDR::InvalidSwitchError)
   end
 
   it "allows unsigned int types" do
@@ -47,10 +45,10 @@ describe XDR::DSL::Union, "#switch_on" do
       end
     end.to_not raise_error
 
-    expect{ klass.new(0) }.to_not raise_error
-    expect{ klass.new(1) }.to_not raise_error
-    expect{ klass.new(2) }.to raise_error(XDR::InvalidSwitchError)
-    expect{ klass.new(-1) }.to raise_error(XDR::InvalidSwitchError)
+    expect { klass.new(0) }.to_not raise_error
+    expect { klass.new(1) }.to_not raise_error
+    expect { klass.new(2) }.to raise_error(XDR::InvalidSwitchError)
+    expect { klass.new(-1) }.to raise_error(XDR::InvalidSwitchError)
   end
 
   it "allows bool types", :focus do
@@ -63,7 +61,7 @@ describe XDR::DSL::Union, "#switch_on" do
       end
     end.to_not raise_error
 
-    expect{ klass.new(true) }.to_not raise_error
-    expect{ klass.new(false) }.to raise_error(XDR::InvalidSwitchError)
+    expect { klass.new(true) }.to_not raise_error
+    expect { klass.new(false) }.to raise_error(XDR::InvalidSwitchError)
   end
 end

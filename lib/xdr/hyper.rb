@@ -9,6 +9,6 @@ module XDR::Hyper
   end
 
   def self.read(io)
-    read_bytes(io, 8).unpack("q>").first
+    read_bytes(io, 8).unpack1("q>")
   end
 end

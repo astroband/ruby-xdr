@@ -2,13 +2,13 @@
 require_relative "lib/xdr/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "xdr"
-  spec.version       = XDR::VERSION
-  spec.authors       = ["Scott Fleckenstein"]
-  spec.email         = ["scott@stellar.org"]
-  spec.summary       = "XDR Helper Library"
-  spec.homepage      = "https://github.com/astroband/ruby-xdr"
-  spec.license       = "Apache-2.0"
+  spec.name = "xdr"
+  spec.version = XDR::VERSION
+  spec.authors = ["Scott Fleckenstein"]
+  spec.email = ["scott@stellar.org"]
+  spec.summary = "XDR Helper Library"
+  spec.homepage = "https://github.com/astroband/ruby-xdr"
+  spec.license = "Apache-2.0"
 
   spec.files = Dir["lib/**/*"]
   spec.extra_rdoc_files += Dir["README*", "LICENSE*", "CHANGELOG*"]

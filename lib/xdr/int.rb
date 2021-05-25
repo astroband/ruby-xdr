@@ -9,6 +9,6 @@ module XDR::Int
   end
 
   def self.read(io)
-    read_bytes(io, 4).unpack("l>").first
+    read_bytes(io, 4).unpack1("l>")
   end
 end

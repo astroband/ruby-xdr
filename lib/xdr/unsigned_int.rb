@@ -9,6 +9,6 @@ module XDR::UnsignedInt
   end
 
   def self.read(io)
-    read_bytes(io, 4).unpack("L>").first
+    read_bytes(io, 4).unpack1("L>")
   end
 end

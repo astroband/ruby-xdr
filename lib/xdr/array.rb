@@ -6,7 +6,7 @@ class XDR::Array
 
   def initialize(child_type, length)
     @child_type = child_type
-    @length     = length
+    @length = length
   end
 
   def write(val, io)
@@ -19,7 +19,7 @@ class XDR::Array
   end
 
   def read(io)
-    @length.times.map{ @child_type.read(io) }
+    @length.times.map { @child_type.read(io) }
   end
 
   def valid?(val)

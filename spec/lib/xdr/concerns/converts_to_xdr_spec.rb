@@ -1,23 +1,23 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe XDR::Concerns::ConvertsToXDR do
-  subject{ UnimplementedConvertible.new }
+  subject { UnimplementedConvertible.new }
 
   it "requires an implementation of #read" do
-    expect{ subject.read(StringIO.new) }.to raise_error(NotImplementedError)
+    expect { subject.read(StringIO.new) }.to raise_error(NotImplementedError)
   end
 
   it "requires an implementation of #write" do
-    expect{ subject.write(3, StringIO.new) }.to raise_error(NotImplementedError)
+    expect { subject.write(3, StringIO.new) }.to raise_error(NotImplementedError)
   end
 
   it "requires an implementation of #valid?" do
-    expect{ subject.valid?(3) }.to raise_error(NotImplementedError)
+    expect { subject.valid?(3) }.to raise_error(NotImplementedError)
   end
 end
 
 describe XDR::Concerns::ConvertsToXDR, "#to_xdr" do
-  subject{ ImplementedConvertible.new }
+  subject { ImplementedConvertible.new }
 
   it "calls through to write" do
     expect(subject).to receive(:write).with("hiya", kind_of(StringIO))
@@ -25,7 +25,7 @@ describe XDR::Concerns::ConvertsToXDR, "#to_xdr" do
   end
 
   context "using an actual xdr type" do
-    subject{ XDR::Opaque.new(4) }
+    subject { XDR::Opaque.new(4) }
 
     it "encodes to hex" do
       r = subject.to_xdr("\x00\x01\x02\x03", "hex")
@@ -45,7 +45,7 @@ describe XDR::Concerns::ConvertsToXDR, "#to_xdr" do
 end
 
 describe XDR::Concerns::ConvertsToXDR, "#from_xdr" do
-  subject{ ImplementedConvertible.new }
+  subject { ImplementedConvertible.new }
 
   it "calls through to read" do
     allow(subject).to receive(:read).and_call_original
@@ -54,7 +54,7 @@ describe XDR::Concerns::ConvertsToXDR, "#from_xdr" do
   end
 
   context "using an actual xdr type" do
-    subject{ XDR::Opaque.new(4) }
+    subject { XDR::Opaque.new(4) }
 
     it "decodes from hex" do
       r = subject.from_xdr("00010203", "hex")
@@ -72,7 +72,7 @@ describe XDR::Concerns::ConvertsToXDR, "#from_xdr" do
     end
 
     it "raises an ArgumentError if the input is not fully consumed" do
-      expect{ subject.from_xdr("\x00\x00\x00\x00\x00") }.to raise_error(ArgumentError)
+      expect { subject.from_xdr("\x00\x00\x00\x00\x00") }.to raise_error(ArgumentError)
     end
   end
 end

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 class TestColor < XDR::Enum
   member :red, 0
@@ -13,15 +13,15 @@ describe XDR::Enum, ".read" do
   let(:one) { "\x00\x00\x00\x01" }
   let(:two) { "\x00\x00\x00\x02" }
 
-  subject{ TestColor }
+  subject { TestColor }
 
   it "decodes values correctly" do
-    expect( read zero ).to eq(TestColor.red)
-    expect( read one ).to eq(TestColor.green)
+    expect(read(zero)).to eq(TestColor.red)
+    expect(read(one)).to eq(TestColor.green)
   end
 
   it "raises EnumValueError if the decoded value is not in the defined constants" do
-    expect{ read two }.to raise_error XDR::EnumValueError
+    expect { read two }.to raise_error XDR::EnumValueError
   end
 
   def read(str)
@@ -31,27 +31,27 @@ describe XDR::Enum, ".read" do
 end
 
 describe XDR::Enum, ".write" do
-  subject{ TestColor }
+  subject { TestColor }
 
   it "encodes values correctly" do
-    expect( write TestColor.red ).to   eq("\x00\x00\x00\x00")
-    expect( write TestColor.green ).to eq("\x00\x00\x00\x01")
+    expect(write(TestColor.red)).to eq("\x00\x00\x00\x00")
+    expect(write(TestColor.green)).to eq("\x00\x00\x00\x01")
   end
 
   it "raises WriteError if value isn't a member" do
-    expect{ write 0 }.to raise_error XDR::WriteError
-    expect{ write 1 }.to raise_error XDR::WriteError
+    expect { write 0 }.to raise_error XDR::WriteError
+    expect { write 1 }.to raise_error XDR::WriteError
   end
 
   def write(val)
-    io = StringIO.new()
+    io = StringIO.new
     subject.write(val, io)
     io.string
   end
 end
 
 describe XDR::Enum, ".from_name" do
-  subject{ TestColor }
+  subject { TestColor }
 
   it "returns the correct value" do
     expect(subject.from_name("red")).to eq(TestColor.red)
@@ -65,6 +65,6 @@ describe XDR::Enum, ".from_name" do
   end
 
   it "raises EnumNameError when the name is not a member" do
-    expect{ subject.from_name("chartreuse")}.to raise_error(XDR::EnumNameError)
+    expect { subject.from_name("chartreuse") }.to raise_error(XDR::EnumNameError)
   end
 end

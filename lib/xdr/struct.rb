@@ -1,4 +1,4 @@
-require 'base64'
+require "base64"
 
 class XDR::Struct
   include ActiveModel::Model
@@ -7,8 +7,8 @@ class XDR::Struct
   extend XDR::Concerns::ConvertsToXDR
   extend XDR::DSL::Struct
 
-  attribute_method_prefix 'read_'
-  attribute_method_suffix 'write_'
+  attribute_method_prefix "read_"
+  attribute_method_suffix "write_"
 
   class_attribute :fields
   self.fields = ActiveSupport::OrderedHash.new
@@ -36,26 +36,25 @@ class XDR::Struct
     val.is_a?(self)
   end
 
-  def initialize(attributes={})
+  def initialize(attributes = {})
     @attributes = {}
     super
   end
 
-
   #
   # Serializes struct to xdr, return a string of bytes
   #
-  # @param format=:raw [Symbol] The encoding used for the bytes produces, one of (:raw, :hex, :base64)
+  # @param format [:raw, :hex, :base64] The encoding used for the bytes produces, one of (:raw, :hex, :base64)
   #
   # @return [String] The encoded bytes of this struct
-  def to_xdr(format=:raw)
+  def to_xdr(format = :raw)
     raw = self.class.to_xdr(self)
 
     case format
-    when :raw ;     raw
-    when :hex ;     raw.unpack("H*").first
-    when :base64 ;  Base64.strict_encode64(raw)
-    else ;
+    when :raw then raw
+    when :hex then raw.unpack1("H*")
+    when :base64 then Base64.strict_encode64(raw)
+    else
       raise ArgumentError, "Invalid format #{format.inspect}; must be :raw, :hex, or :base64"
     end
   end
@@ -63,18 +62,18 @@ class XDR::Struct
   #
   # Compares two structs for equality
   #
-  def == (other)
+  def ==(other)
     return false unless other.is_a?(self.class)
-    other.attributes == self.attributes
+    other.attributes == attributes
   end
 
-  def eql? (other)
+  def eql?(other)
     return false unless other.is_a?(self.class)
-    other.attributes.eql? self.attributes
+    other.attributes.eql? attributes
   end
 
   def hash
-    [self.class, self.attributes].hash
+    [self.class, attributes].hash
   end
 
   def read_attribute(attr)
