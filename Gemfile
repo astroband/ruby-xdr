@@ -8,3 +8,7 @@ group :development do
   gem "pry"
   gem "yard"
 end
+
+group :lint do
+  gem "standard", require: false
+end
