@@ -1,0 +1,17 @@
+comment: false
+ignore:
+- "**/generated/"
+- "**/examples/"
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+        informational: true
+    patch:
+      default:
+        paths:
+        - "*/lib/"
+        threshold: 1%
+        informational: true
