@@ -1,0 +1,23 @@
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "daily"
+  commit-message:
+    prefix: "ci"
+    include: "scope"
+- package-ecosystem: "bundler"
+  directory: "/"
+  schedule:
+    interval: "daily"
+  versioning-strategy: "increase-if-necessary"
+  commit-message:
+    prefix: "chore"
+    include: "scope"
+  allow:
+  - dependency-type: "direct"
+  labels:
+  - "deps"

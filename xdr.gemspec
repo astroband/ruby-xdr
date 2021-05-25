@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Scott Fleckenstein"]
   spec.email         = ["scott@stellar.org"]
   spec.summary       = "XDR Helper Library"
-  spec.homepage      = "https://github.com/stellar/ruby-xdr"
+  spec.homepage      = "https://github.com/astroband/ruby-xdr"
   spec.license       = "Apache-2.0"
 
   spec.files = Dir["lib/**/*"]
@@ -15,10 +15,10 @@ Gem::Specification.new do |spec|
   spec.bindir = "exe"
 
   spec.metadata = {
-    "bug_tracker_uri" => "https://github.com/stellar/ruby-xdr/issues",
-    "changelog_uri" => "https://github.com/stellar/ruby-xdr/blob/v#{spec.version}/CHANGELOG.md",
+    "bug_tracker_uri" => "#{spec.homepage}/issues",
+    "changelog_uri" => "#{spec.homepage}/blob/v#{spec.version}/CHANGELOG.md",
     "documentation_uri" => "https://rubydoc.info/gems/xdr/#{spec.version}/",
-    "source_code_uri" => "https://github.com/stellar/ruby-xdr/tree/v#{spec.version}"
+    "source_code_uri" => "#{spec.homepage}/tree/v#{spec.version}"
   }
 
   spec.required_ruby_version = ">= 2.4.0"
