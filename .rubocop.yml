@@ -1,0 +1,11 @@
+require:
+- standard
+
+inherit_gem:
+  standard: config/base.yml
+
+AllCops:
+  Exclude:
+  - 'examples/**/*'
+  - 'vendor/bundle/**/*'
+  TargetRubyVersion: 2.5
