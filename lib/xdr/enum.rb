@@ -7,7 +7,7 @@ class XDR::Enum
   class_attribute :sealed
   self.members = ActiveSupport::OrderedHash.new.with_indifferent_access
   self.by_value = ActiveSupport::OrderedHash.new
-  self.sealed  = false
+  self.sealed = false
 
   def self.write(val, io)
     raise XDR::WriteError, "Invalid enum value: #{val.inspect}" unless val.is_a?(self)
@@ -21,14 +21,14 @@ class XDR::Enum
       raise XDR::EnumValueError, "Unknown #{name} member: #{value}" if result.blank?
     end
   end
-  
+
   def self.valid?(val)
     val.is_a?(self)
   end
 
   def self.from_name(name)
     normalized = name.to_s.underscore
-    members[normalized].tap do |r|      
+    members[normalized].tap do |r|
       raise XDR::EnumNameError, "#{name} is not a member of #{self.name}" if r.blank?
     end
   end
@@ -37,8 +37,8 @@ class XDR::Enum
   attr_reader :value
 
   def initialize(name, value)
-    raise ArgumentError, "#{self.class} is sealed" if self.sealed
-    @name  = name
+    raise ArgumentError, "#{self.class} is sealed" if sealed
+    @name = name
     @value = value
   end
 

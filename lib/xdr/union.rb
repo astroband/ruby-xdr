@@ -5,20 +5,19 @@ class XDR::Union
   extend XDR::Concerns::ConvertsToXDR
   extend XDR::DSL::Union
 
-
   class_attribute :arms
   class_attribute :switches
   class_attribute :switch_type
   class_attribute :switch_name
-  attr_reader     :switch
-  attr_reader     :arm
+  attr_reader :switch
+  attr_reader :arm
 
-  self.arms        = ActiveSupport::OrderedHash.new
-  self.switches    = ActiveSupport::OrderedHash.new
+  self.arms = ActiveSupport::OrderedHash.new
+  self.switches = ActiveSupport::OrderedHash.new
   self.switch_type = nil
   self.switch_name = nil
 
-  attribute_method_suffix '!'
+  attribute_method_suffix "!"
 
   def self.arm_for_switch(switch)
     begin
@@ -38,56 +37,55 @@ class XDR::Union
   end
 
   def self.normalize_switch(switch)
-    case
-    when switch.is_a?(self.switch_type)
+    if switch.is_a?(switch_type)
       switch
-    when self.switch_type.valid?(switch)
+    elsif switch_type.valid?(switch)
       switch
-    when self.switch_type.respond_to?(:from_name)
-      self.switch_type.from_name(switch)
+    elsif switch_type.respond_to?(:from_name)
+      switch_type.from_name(switch)
     else
-      raise ArgumentError, "Cannot normalize switch: #{switch.inspect} to type: #{self.switch_type}"
+      raise ArgumentError, "Cannot normalize switch: #{switch.inspect} to type: #{switch_type}"
     end
   end
 
   def self.read(io)
-    switch   = switch_type.read(io)
-    arm      = arm_for_switch(switch)
+    switch = switch_type.read(io)
+    arm = arm_for_switch(switch)
     arm_type = arms[arm] || XDR::Void
-    value    = arm_type.read(io)
+    value = arm_type.read(io)
     new(switch, value)
   end
 
   def self.write(val, io)
     switch_type.write(val.switch, io)
     arm_type = arms[val.arm] || XDR::Void
-    arm_type.write(val.get,io)
+    arm_type.write(val.get, io)
   end
 
   def self.valid?(val)
     val.is_a?(self)
   end
 
-  def initialize(switch=:__unset__, value=:void)
-    @switch   = nil
-    @arm      = nil
-    @value    = nil
+  def initialize(switch = :__unset__, value = :void)
+    @switch = nil
+    @arm = nil
+    @value = nil
     set(switch, value) unless switch == :__unset__
   end
 
   #
   # Serializes struct to xdr, return a string of bytes
   #
-  # @param format=:raw [Symbol] The encoding used for the bytes produces, one of (:raw, :hex, :base64)
+  # @param format [:raw, :hex, :base64] The encoding used for the bytes produces, one of (:raw, :hex, :base64)
   #
   # @return [String] The encoded bytes of this struct
-  def to_xdr(format=:raw)
+  def to_xdr(format = :raw)
     self.class.to_xdr(self, format)
   end
 
-  def set(switch, value=:void)
+  def set(switch, value = :void)
     @switch = self.class.normalize_switch switch
-    @arm    = self.class.arm_for_switch @switch
+    @arm = self.class.arm_for_switch @switch
 
     raise XDR::InvalidValueError unless valid_for_arm_type(value, @arm)
 
@@ -100,7 +98,7 @@ class XDR::Union
     @value unless @value == :void
   end
 
-  alias get value
+  alias_method :get, :value
 
   def attribute(attr)
     return nil unless @arm.to_s == attr
@@ -117,23 +115,24 @@ class XDR::Union
   #
   # Compares two unions for equality
   #
-  def == (other)
+  def ==(other)
     return false unless other.is_a?(self.class)
-    return false unless other.switch == self.switch
-    other.value == self.value
+    return false unless other.switch == switch
+    other.value == value
   end
 
   def eql?(other)
     return false unless other.is_a?(self.class)
-    return false unless other.switch.eql? self.switch
-    other.value.eql? self.value
+    return false unless other.switch.eql? switch
+    other.value.eql? value
   end
-  
+
   def hash
-    [self.class, self.switch, self.value].hash
+    [self.class, switch, value].hash
   end
 
   private
+
   def valid_for_arm_type(value, arm)
     arm_type = arms[@arm]
 

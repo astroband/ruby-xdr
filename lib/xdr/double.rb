@@ -8,7 +8,6 @@ module XDR::Double
   end
 
   def self.read(io)
-    read_bytes(io, 8).unpack("G").first
+    read_bytes(io, 8).unpack1("G")
   end
-
 end

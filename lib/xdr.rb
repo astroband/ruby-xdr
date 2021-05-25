@@ -56,17 +56,23 @@ module XDR
     autoload :ArrayConverter
   end
 
-  class Error < StandardError ; end
-  class ReadError < Error ; end
-  class EnumValueError < ReadError ; end
-  class EnumNameError < ReadError ; end
-  class WriteError < Error ; end
+  class Error < StandardError; end
 
-  class InvalidSwitchError < Error ; end
-  class InvalidValueError < Error ; end
-  class ArmNotSetError < Error ; end
+  class ReadError < Error; end
+
+  class EnumValueError < ReadError; end
+
+  class EnumNameError < ReadError; end
+
+  class WriteError < Error; end
+
+  class InvalidSwitchError < Error; end
+
+  class InvalidValueError < Error; end
+
+  class ArmNotSetError < Error; end
 
   mattr_accessor :logger
-  self.logger = ActiveSupport::Logger.new(STDOUT)
-  self.logger.level = Logger::WARN
+  self.logger = ActiveSupport::Logger.new($stdout)
+  logger.level = Logger::WARN
 end

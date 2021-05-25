@@ -1,10 +1,9 @@
 describe XDR::Union, ".read" do
-  
-  subject{ UnionSpec::Result }
-  let(:result){ subject.read(bytes) }
+  subject { UnionSpec::Result }
+  let(:result) { subject.read(bytes) }
 
   context "with a void arm encoded" do
-    let(:bytes){ StringIO.new "\x00\x00\x00\x00" }
+    let(:bytes) { StringIO.new "\x00\x00\x00\x00" }
 
     it "decodes correctly" do
       expect(result).to be_a(UnionSpec::Result)
@@ -15,7 +14,7 @@ describe XDR::Union, ".read" do
   end
 
   context "with a non-void arm encoded" do
-    let(:bytes){ StringIO.new "\x00\x00\x00\x01\x00\x00\x00\x0812345678" }
+    let(:bytes) { StringIO.new "\x00\x00\x00\x01\x00\x00\x00\x0812345678" }
 
     it "decodes correctly" do
       expect(result).to be_a(UnionSpec::Result)
@@ -27,7 +26,7 @@ describe XDR::Union, ".read" do
   end
 
   context "with a default arm encoded" do
-    let(:bytes){ StringIO.new "\x00\x00\x00\x02" }
+    let(:bytes) { StringIO.new "\x00\x00\x00\x02" }
 
     it "decodes correctly" do
       expect(result).to be_a(UnionSpec::Result)
@@ -38,22 +37,21 @@ describe XDR::Union, ".read" do
   end
 
   context "with a switch that is not a member of the switch_type" do
-    let(:bytes){ StringIO.new "\x00\x00\x00\x10" }
+    let(:bytes) { StringIO.new "\x00\x00\x00\x10" }
 
     it "raises EnumValueError" do
-      expect{ result }.to raise_error XDR::EnumValueError
+      expect { result }.to raise_error XDR::EnumValueError
     end
   end
 
   context "with a invalid arm encoded" do
-    let(:bytes){ StringIO.new "\x00\x00\x00\x02" }
-    subject{ UnionSpec::UnforfivingResult }
+    let(:bytes) { StringIO.new "\x00\x00\x00\x02" }
+    subject { UnionSpec::UnforfivingResult }
 
     it "raises InvalidSwitchError" do
-      expect{ result }.to raise_error XDR::InvalidSwitchError
+      expect { result }.to raise_error XDR::InvalidSwitchError
     end
   end
-
 end
 
 describe XDR::Union, "#attribute" do
@@ -93,7 +91,7 @@ describe XDR::Union, "#attribute!" do
 end
 
 describe XDR::Union, "#set" do
-  subject{ UnionSpec::ManyTypes.new }
+  subject { UnionSpec::ManyTypes.new }
 
   it "sets the underlying member variables correctly" do
     subject.set(:fixnum, 3)
@@ -106,10 +104,10 @@ describe XDR::Union, "#set" do
     expect(subject.arm).to eq(:float)
     expect(subject.value).to eq(1.0)
 
-    subject.set(:array, [1,2])
+    subject.set(:array, [1, 2])
     expect(subject.switch).to eq(UnionSpec::Types.array)
     expect(subject.arm).to eq(:array)
-    expect(subject.value).to eq([1,2])
+    expect(subject.value).to eq([1, 2])
 
     subject.set(:bool, true)
     expect(subject.switch).to eq(UnionSpec::Types.bool)
@@ -138,72 +136,72 @@ describe XDR::Union, "#set" do
   end
 
   it "raises InvalidValueError if the value provided is not compatible with the selected arm" do
-    expect{ subject.set(:fixnum, 3.0)   }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:fixnum, "hi")  }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:fixnum, [])    }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:fixnum, true)  }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:fixnum, 3.0) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:fixnum, "hi") }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:fixnum, []) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:fixnum, true) }.to raise_error(XDR::InvalidValueError)
 
-    expect{ subject.set(:float, 3)    }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:float, "hi") }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:float, [])   }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:float, true) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:float, 3) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:float, "hi") }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:float, []) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:float, true) }.to raise_error(XDR::InvalidValueError)
 
-    expect{ subject.set(:array, 3)    }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:array, "hi") }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:array, 3.0)  }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:array, true) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:array, 3) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:array, "hi") }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:array, 3.0) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:array, true) }.to raise_error(XDR::InvalidValueError)
 
-    expect{ subject.set(:bool, 3)    }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:bool, "hi") }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:bool, 3.0)  }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:bool, [])   }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:bool, 3) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:bool, "hi") }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:bool, 3.0) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:bool, []) }.to raise_error(XDR::InvalidValueError)
 
-    expect{ subject.set(:optional, "hi") }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:optional, 3.0)  }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:optional, [])   }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:optional, true) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:optional, "hi") }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:optional, 3.0) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:optional, []) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:optional, true) }.to raise_error(XDR::InvalidValueError)
 
-    expect{ subject.set(:complex, 3)    }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:complex, "hi") }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:complex, 3.0)  }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:complex, [])   }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:complex, true) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:complex, 3) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:complex, "hi") }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:complex, 3.0) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:complex, []) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:complex, true) }.to raise_error(XDR::InvalidValueError)
 
-    expect{ subject.set(:void, 3)    }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:void, "hi") }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:void, 3.0)  }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:void, [])   }.to raise_error(XDR::InvalidValueError)
-    expect{ subject.set(:void, true) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:void, 3) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:void, "hi") }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:void, 3.0) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:void, []) }.to raise_error(XDR::InvalidValueError)
+    expect { subject.set(:void, true) }.to raise_error(XDR::InvalidValueError)
   end
 
   it "raises InvalidSwitchError if the provided switch is not compatible with the switch_type" do
-    expect{ subject.set 4 }.to raise_error(XDR::InvalidSwitchError)
-    expect{ subject.set "hi" }.to raise_error(XDR::InvalidSwitchError)
-    expect{ subject.set UnionSpec::ResultType.ok }.to raise_error(XDR::InvalidSwitchError)
+    expect { subject.set 4 }.to raise_error(XDR::InvalidSwitchError)
+    expect { subject.set "hi" }.to raise_error(XDR::InvalidSwitchError)
+    expect { subject.set UnionSpec::ResultType.ok }.to raise_error(XDR::InvalidSwitchError)
   end
 
   context "when the union does not have a default switch" do
-    subject{ UnionSpec::UnforfivingResult.new }
+    subject { UnionSpec::UnforfivingResult.new }
 
-    #TODO
+    # TODO
   end
 end
 
 describe XDR::Union, "#switch" do
-  subject{ UnionSpec::Result.new }
+  subject { UnionSpec::Result.new }
 
   it "reflects the set switch" do
     subject.set :ok
-    expect( subject.switch ).to eq(UnionSpec::ResultType.ok)
+    expect(subject.switch).to eq(UnionSpec::ResultType.ok)
     subject.set :error, "broke"
-    expect( subject.switch ).to eq(UnionSpec::ResultType.error)
+    expect(subject.switch).to eq(UnionSpec::ResultType.error)
     subject.set :nonsense
-    expect( subject.switch ).to eq(UnionSpec::ResultType.nonsense)
+    expect(subject.switch).to eq(UnionSpec::ResultType.nonsense)
   end
 
   it "is aliased to the union's switch_name" do
     subject.set :ok
-    expect( subject.type ).to eq(subject.switch)
+    expect(subject.type).to eq(subject.switch)
   end
 end
 
@@ -260,20 +258,19 @@ module UnionSpec
   class ManyTypes < XDR::Union
     switch_on Types, :type
 
-    switch Types.fixnum,   :fixnum
-    switch Types.float,    :float
-    switch Types.array,    :array
-    switch Types.bool,     :bool
+    switch Types.fixnum, :fixnum
+    switch Types.float, :float
+    switch Types.array, :array
+    switch Types.bool, :bool
     switch Types.optional, :optional
-    switch Types.complex,  :complex
+    switch Types.complex, :complex
     switch Types.void
 
-
-    attribute :fixnum,    XDR::Hyper
-    attribute :float,     XDR::Double
-    attribute :array,     XDR::Array[XDR::Int, 2] 
-    attribute :bool,      XDR::Bool
-    attribute :optional,  XDR::Option[XDR::Int]
-    attribute :complex,   Result
+    attribute :fixnum, XDR::Hyper
+    attribute :float, XDR::Double
+    attribute :array, XDR::Array[XDR::Int, 2]
+    attribute :bool, XDR::Bool
+    attribute :optional, XDR::Option[XDR::Int]
+    attribute :complex, Result
   end
 end

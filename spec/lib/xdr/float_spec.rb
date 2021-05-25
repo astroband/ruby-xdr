@@ -1,5 +1,4 @@
-require 'spec_helper'
-
+require "spec_helper"
 
 describe XDR::Float, ".read" do
   it "decodes values correctly" do
@@ -24,13 +23,13 @@ describe XDR::Float, ".write" do
   end
 
   it "raises a WriteError when the value is not Float" do
-    expect{ write 3 }.to raise_error(XDR::WriteError)
-    expect{ write "hello" }.to raise_error(XDR::WriteError)
-    expect{ write "1.0" }.to raise_error(XDR::WriteError)
+    expect { write 3 }.to raise_error(XDR::WriteError)
+    expect { write "hello" }.to raise_error(XDR::WriteError)
+    expect { write "1.0" }.to raise_error(XDR::WriteError)
   end
 
   def write(val)
-    io = StringIO.new()
+    io = StringIO.new
     subject.write(val, io)
     io.string
   end

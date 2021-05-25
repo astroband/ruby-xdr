@@ -8,7 +8,6 @@ module XDR::Float
   end
 
   def self.read(io)
-    read_bytes(io, 4).unpack("g").first
+    read_bytes(io, 4).unpack1("g")
   end
-
 end

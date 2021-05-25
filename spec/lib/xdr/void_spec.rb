@@ -1,8 +1,6 @@
-require 'spec_helper'
-
+require "spec_helper"
 
 describe XDR::Void, ".read" do
-
   it "decodes values correctly" do
     expect(read("\x00\x00\x00\x00")).to eq(:void)
     expect(read("\x00\x00\x00\x01")).to eq(:void)
@@ -18,20 +16,18 @@ describe XDR::Void, ".read" do
 end
 
 describe XDR::Void, ".write" do
-
   it "decodes values correctly" do
-    expect(write :void).to eq("")
+    expect(write(:void)).to eq("")
   end
 
   def write(val)
-    io = StringIO.new()
+    io = StringIO.new
     subject.write(val, io)
     io.string
   end
 end
 
 describe XDR::Void, ".valid?" do
-
   it "accepts :void" do
     expect(subject.valid?(:void)).to eq(true)
   end
@@ -41,6 +37,4 @@ describe XDR::Void, ".valid?" do
     expect(subject.valid?(0)).to eq(false)
     expect(subject.valid?("hello")).to eq(false)
   end
-
-
 end

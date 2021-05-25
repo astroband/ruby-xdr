@@ -4,8 +4,8 @@ class XDR::VarArray
 
   singleton_class.send(:alias_method, :[], :new)
 
-  def initialize(child_type, length=XDR::MAX_SIZE)
-    @child_type   = child_type
+  def initialize(child_type, length = XDR::MAX_SIZE)
+    @child_type = child_type
     @length = length
   end
 
@@ -29,7 +29,7 @@ class XDR::VarArray
       raise XDR::ReadError, "VarArray length #{length} is greater than max #{@length}"
     end
 
-    length.times.map{ @child_type.read(io) }
+    length.times.map { @child_type.read(io) }
   end
 
   def valid?(val)

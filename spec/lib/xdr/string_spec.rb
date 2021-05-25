@@ -1,8 +1,7 @@
-require 'spec_helper'
-
+require "spec_helper"
 
 describe XDR::String, "#read" do
-  subject{ XDR::String.new(3) }
+  subject { XDR::String.new(3) }
 
   it "decodes values correctly" do
     expect(read("\x00\x00\x00\x00")).to eq("")
@@ -11,13 +10,13 @@ describe XDR::String, "#read" do
   end
 
   it "raises a ReadError when the encoded length is greater than the allowed max" do
-    expect{ read "\x00\x00\x00\x04hiya" }.to raise_error(XDR::ReadError)
+    expect { read "\x00\x00\x00\x04hiya" }.to raise_error(XDR::ReadError)
   end
 
   it "raises a ReadError when the padding isn't zeros" do
-    expect{ read "\x00\x00\x00\x01h\x00\x00\x01" }.to raise_error(XDR::ReadError)
-    expect{ read "\x00\x00\x00\x01h\x00\x01\x00" }.to raise_error(XDR::ReadError)
-    expect{ read "\x00\x00\x00\x01h\x01\x00\x00" }.to raise_error(XDR::ReadError)
+    expect { read "\x00\x00\x00\x01h\x00\x00\x01" }.to raise_error(XDR::ReadError)
+    expect { read "\x00\x00\x00\x01h\x00\x01\x00" }.to raise_error(XDR::ReadError)
+    expect { read "\x00\x00\x00\x01h\x01\x00\x00" }.to raise_error(XDR::ReadError)
   end
 
   def read(str)
@@ -27,7 +26,7 @@ describe XDR::String, "#read" do
 end
 
 describe XDR::String, "#write" do
-  subject{ XDR::String[2] }
+  subject { XDR::String[2] }
 
   it "encodes values correctly" do
     expect(write("")).to eq("\x00\x00\x00\x00")
@@ -36,11 +35,11 @@ describe XDR::String, "#write" do
   end
 
   it "raises a WriteError when the provided string is too long" do
-    expect{ write "123" }.to raise_error(XDR::WriteError)
+    expect { write "123" }.to raise_error(XDR::WriteError)
   end
 
   def write(val)
-    io = StringIO.new()
+    io = StringIO.new
     subject.write(val, io)
     io.string
   end

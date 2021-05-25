@@ -1,9 +1,9 @@
-require 'base64'
+require "base64"
 
 module XDR::Concerns::ConvertsToXDR
   include XDR::Concerns::ReadsBytes
 
-  # 
+  #
   # Serialized the provided `val` to xdr and writes it to `io`
   #
   # @abstract
@@ -14,7 +14,7 @@ module XDR::Concerns::ConvertsToXDR
     raise NotImplementedError, "implement in including class"
   end
 
-  # 
+  #
   # Reads from the provided IO an instance of the implementing class
   #
   # @abstract
@@ -35,7 +35,7 @@ module XDR::Concerns::ConvertsToXDR
 
   # Serialized the provided val to xdr, returning a string
   # of the serialized data
-  # 
+  #
   # @param val [Object] the value to serialize
   # @param encoding [:raw|:hex|:base64] encode the result with specified codec
   # @return [String] the produced bytes
@@ -46,7 +46,7 @@ module XDR::Concerns::ConvertsToXDR
 
     case String(encoding)
     when "raw" then raw
-    when "hex" then raw.unpack("H*").first
+    when "hex" then raw.unpack1("H*")
     when "base64" then Base64.strict_encode64(raw)
     else
       raise ArgumentError, "Invalid encoding #{encoding.inspect}: must be 'raw', 'base64', or 'hex'"
@@ -65,13 +65,13 @@ module XDR::Concerns::ConvertsToXDR
           when "base64" then Base64.strict_decode64(string)
           else
             raise ArgumentError, "Invalid encoding #{encoding.inspect}: must be 'raw', 'base64', or 'hex'"
-          end
+    end
 
     io = StringIO.new(raw)
     result = read(io)
 
     if io.pos != io.length
-      raise  ArgumentError, "Input string not fully consumed! are you decoding the right xdr type?"
+      raise ArgumentError, "Input string not fully consumed! are you decoding the right xdr type?"
     end
 
     result
@@ -81,10 +81,10 @@ module XDR::Concerns::ConvertsToXDR
 
   def padding_for(length)
     case length % 4
-    when 0 ; 0
-    when 1 ; 3
-    when 2 ; 2
-    when 3 ; 1
+    when 0 then 0
+    when 1 then 3
+    when 2 then 2
+    when 3 then 1
     end
   end
 end

@@ -1,5 +1,4 @@
-require 'spec_helper'
-
+require "spec_helper"
 
 describe XDR::DSL::Enum, "#member" do
   subject do
@@ -38,7 +37,6 @@ describe XDR::DSL::Enum, "#seal" do
   end
 
   it "prevents you from adding members after being sealed" do
-    expect{ subject.member :three, 3 }.to raise_error(ArgumentError)
+    expect { subject.member :three, 3 }.to raise_error(ArgumentError)
   end
-
 end

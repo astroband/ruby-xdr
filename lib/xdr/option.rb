@@ -6,7 +6,7 @@ class XDR::Option
   attr_reader :child_type
 
   def initialize(child_type)
-    #TODO, raise an error if child_type is not ConvertToXDR
+    # TODO, raise an error if child_type is not ConvertToXDR
     @child_type = child_type
   end
 
