@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  pull_request:
+    paths-ignore: [ '**/README.md', '**/CHANGELOG.md' ]
+  push:
+    paths-ignore: [ '**/README.md', '**/CHANGELOG.md' ]
+
+jobs:
+  test:
+    if: "contains(github.event.commits[0].message, '[ci skip]') == false"
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: [3.0, 2.7, 2.6, 2.5, jruby, truffleruby, debug]
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Ruby ${{ matrix.ruby }}
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - name: Run specs
+      run: bin/rake spec
+
+  coverage:
+    if: "contains(github.event.commits[0].message, '[ci skip]') == false"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - name: Upload code coverage data to CodeClimate
+      uses: paambaati/codeclimate-action@v2.7.5
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      with:
+        coverageCommand: bin/rake test:coverage
+        debug: true
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - name: Enforce codestyle with `standard`
+      run: bin/rake lint:code
+    - name: Check Yard syntax with `yard-junk`
+      run: bin/rake lint:docs
+    - name: Check for vulnerable dependencies with `bundle-audit`
+      run: bin/rake lint:deps
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Check markdown files for broken links
+      uses: justinbeckwith/linkinator-action@v1
+      with:
+        paths: '*.md, .github/*.md'
+        verbosity: 'INFO'
+        skip: 'vendor/, astroband/ruby-xdr/compare'
