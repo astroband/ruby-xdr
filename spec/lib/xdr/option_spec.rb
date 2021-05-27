@@ -22,9 +22,19 @@ describe XDR::Option, ".write" do
     expect(write(nil)).to eq_bytes("\x00\x00\x00\x00")
   end
 
-  it "raises WriteError when the provided value is non-nil bust invalid for the child type" do
-    expect { write 1.0 }.to raise_error(XDR::WriteError)
-    expect { write "hi" }.to raise_error(XDR::WriteError)
+  context "when the provided value is not nil, but invalid for the child type" do
+    it "raises WriteError " do
+      expect { write(1.0) }.to raise_error(XDR::WriteError)
+      expect { write("hi") }.to raise_error(XDR::WriteError)
+    end
+  end
+
+  context "when provided value is empty string" do
+    subject { XDR::Option[XDR::VarOpaque[64]] }
+
+    it "writes empty string" do
+      expect(write("")).to eq_bytes("\x00\x00\x00\x01\x00\x00\x00\x00")
+    end
   end
 
   def write(val)

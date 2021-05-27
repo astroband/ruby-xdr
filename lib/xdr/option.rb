@@ -11,11 +11,11 @@ class XDR::Option
   end
 
   def write(val, io)
-    if val.present?
+    if val.nil?
+      XDR::Bool.write(false, io)
+    else
       XDR::Bool.write(true, io)
       @child_type.write(val, io)
-    else
-      XDR::Bool.write(false, io)
     end
   end
 
