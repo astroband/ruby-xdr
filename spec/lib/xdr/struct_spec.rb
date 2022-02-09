@@ -62,7 +62,7 @@ describe XDR::Struct, "#to_xdr" do
   it "serialized each field in order" do
     expect(result[0...4]).to eq("\x00\x00\x00\x03")
     expect(result[4...8]).to eq([9].pack("l>"))
-    expect(result[8..-1]).to eq("It broke!\x00\x00\x00")
+    expect(result[8..]).to eq("It broke!\x00\x00\x00")
   end
 
   it "raises an exception if the struct is not valid" do
