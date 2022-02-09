@@ -34,7 +34,7 @@ jobs:
       with:
         bundler-cache: true
     - name: Upload code coverage data to CodeClimate
-      uses: paambaati/codeclimate-action@v2.7.5
+      uses: paambaati/codeclimate-action@v3.0.0
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       with:
@@ -54,6 +54,7 @@ jobs:
       run: bin/rake lint:docs
     - name: Check for vulnerable dependencies with `bundle-audit`
       run: bin/rake lint:deps
+
   docs:
     runs-on: ubuntu-latest
     steps:
