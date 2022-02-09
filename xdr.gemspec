@@ -23,10 +23,6 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 2.4.0"
 
-  spec.add_dependency "activesupport", ">= 4.2", "< 7.0"
-  spec.add_dependency "activemodel", ">= 4.2", "< 7.0"
-
-  spec.add_development_dependency "rake", "~> 13.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "simplecov", "~> 0.19"
+  spec.add_dependency "activesupport", ">= 4.2", "< 8.0"
+  spec.add_dependency "activemodel", ">= 4.2", "< 8.0"
 end
