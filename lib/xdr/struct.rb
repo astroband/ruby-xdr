@@ -1,19 +1,11 @@
 require "base64"
 
 class XDR::Struct
-  include ActiveModel::Model
-  include ActiveModel::AttributeMethods
-
   extend XDR::Concerns::ConvertsToXDR
   extend XDR::DSL::Struct
 
-  attribute_method_prefix "read_"
-  attribute_method_suffix "write_"
-
   class_attribute :fields
   self.fields = ActiveSupport::OrderedHash.new
-
-  validates_with XDR::StructValidator
 
   attr_reader :attributes
 
@@ -38,7 +30,10 @@ class XDR::Struct
 
   def initialize(attributes = {})
     @attributes = {}
-    super
+
+    attributes.each do |name, value|
+      write_attribute(name, value)
+    end
   end
 
   #

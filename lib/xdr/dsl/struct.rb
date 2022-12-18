@@ -13,7 +13,5 @@ module XDR::DSL::Struct
     define_method "#{name}=" do |v|
       write_attribute(name, v)
     end
-
-    define_attribute_methods name
   end
 end
