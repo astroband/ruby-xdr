@@ -35,7 +35,7 @@ jobs:
       with:
         bundler-cache: true
     - name: Upload code coverage data to CodeClimate
-      uses: paambaati/codeclimate-action@v3.0.0
+      uses: paambaati/codeclimate-action@v4.0.0
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       with:
