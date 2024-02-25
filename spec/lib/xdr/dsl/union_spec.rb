@@ -51,7 +51,7 @@ describe XDR::DSL::Union, "#switch_on" do
     expect { klass.new(-1) }.to raise_error(XDR::InvalidSwitchError)
   end
 
-  it "allows bool types", :focus do
+  it "allows bool types" do
     klass = nil
 
     expect do

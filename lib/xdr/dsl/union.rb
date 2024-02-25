@@ -18,7 +18,6 @@ module XDR::DSL::Union
     raise ArgumentError, "#{type} does not convert to xdr" unless type.is_a?(XDR::Concerns::ConvertsToXDR)
 
     self.arms = arms.merge(name => type)
-    define_attribute_methods name
   end
 
   private

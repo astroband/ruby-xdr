@@ -1,7 +1,4 @@
 class XDR::Union
-  include ActiveModel::Model
-  include ActiveModel::AttributeMethods
-
   extend XDR::Concerns::ConvertsToXDR
   extend XDR::DSL::Union
 
@@ -16,8 +13,6 @@ class XDR::Union
   self.switches = ActiveSupport::OrderedHash.new
   self.switch_type = nil
   self.switch_name = nil
-
-  attribute_method_suffix "!"
 
   def self.arm_for_switch(switch)
     begin
@@ -100,16 +95,24 @@ class XDR::Union
 
   alias_method :get, :value
 
-  def attribute(attr)
-    return nil unless @arm.to_s == attr
+  def method_missing(method)
+    is_bang = method.end_with?("!")
+    attr = method.to_s.delete_suffix("!")
+
+    super unless self.class.arms.key?(attr.to_sym)
+
+    if @arm.to_s != attr
+      return nil unless is_bang
+      raise XDR::ArmNotSetError, "#{attr} is not the set arm"
+    end
 
     get
   end
 
-  def attribute!(attr)
-    raise XDR::ArmNotSetError, "#{attr} is not the set arm" unless @arm.to_s == attr
+  def respond_to_missing?(method, *)
+    attr = method.to_s.delete_suffix("!")
 
-    get
+    self.class.arms.key?(attr.to_sym) || super
   end
 
   #
