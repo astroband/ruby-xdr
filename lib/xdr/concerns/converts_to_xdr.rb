@@ -60,11 +60,11 @@ module XDR::Concerns::ConvertsToXDR
   # @return [Object] the deserialized value
   def from_xdr(string, encoding = "raw")
     raw = case String(encoding)
-          when "raw" then string
-          when "hex" then [string].pack("H*")
-          when "base64" then Base64.strict_decode64(string)
-          else
-            raise ArgumentError, "Invalid encoding #{encoding.inspect}: must be 'raw', 'base64', or 'hex'"
+    when "raw" then string
+    when "hex" then [string].pack("H*")
+    when "base64" then Base64.strict_decode64(string)
+    else
+      raise ArgumentError, "Invalid encoding #{encoding.inspect}: must be 'raw', 'base64', or 'hex'"
     end
 
     io = StringIO.new(raw)

@@ -10,7 +10,7 @@ module XDR::DSL::Struct
       read_attribute(name)
     end
 
-    define_method "#{name}=" do |v|
+    define_method :"#{name}=" do |v|
       write_attribute(name, v)
     end
 
