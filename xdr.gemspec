@@ -15,10 +15,12 @@ Gem::Specification.new do |spec|
   spec.bindir = "exe"
 
   spec.metadata = {
+    "github_repo" => spec.homepage.sub("https", "ssh"),
+    "source_code_uri" => spec.homepage,
     "bug_tracker_uri" => "#{spec.homepage}/issues",
     "changelog_uri" => "#{spec.homepage}/blob/v#{spec.version}/CHANGELOG.md",
-    "documentation_uri" => "https://rubydoc.info/gems/xdr/#{spec.version}/",
-    "source_code_uri" => "#{spec.homepage}/tree/v#{spec.version}"
+    "homepage_uri" => "#{spec.homepage}/tree/v#{spec.version}/",
+    "documentation_uri" => "https://rubydoc.info/gems/xdr/#{spec.version}/"
   }
 
   spec.required_ruby_version = ">= 2.4.0"
