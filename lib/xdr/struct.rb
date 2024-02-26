@@ -20,7 +20,7 @@ class XDR::Struct
   def self.read(io)
     new.tap do |result|
       fields.each do |name, type|
-        result.public_send("#{name}=", type.read(io))
+        result.public_send(:"#{name}=", type.read(io))
       end
     end
   end
