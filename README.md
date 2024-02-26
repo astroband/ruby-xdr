@@ -1,6 +1,9 @@
 # XDR, for Ruby
 
-[![Build Status](https://travis-ci.org/stellar/ruby-xdr.svg?branch=master)](https://travis-ci.org/stellar/ruby-xdr)
+[![Docs](http://img.shields.io/badge/yard-docs-blue.svg)](https://rubydoc.info/gems/xdr)
+[![Gem Version](https://badge.fury.io/rb/xdr.svg)](https://badge.fury.io/rb/xdr)
+[![CI](https://github.com/astroband/ruby-xdr/actions/workflows/ci.yml/badge.svg)](https://github.com/astroband/ruby-xdr/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/astroband/ruby-xdr/badge.svg?branch=main)](https://coveralls.io/github/astroband/ruby-xdr?branch=main)
 [![Code Climate](https://codeclimate.com/github/stellar/ruby-xdr/badges/gpa.svg)](https://codeclimate.com/github/stellar/ruby-xdr)
 
 XDR is an open data format, specified in [RFC 4506](http://tools.ietf.org/html/rfc4506.html). This library provides a
