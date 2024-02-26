@@ -1,0 +1,5 @@
+primaryBranch: main
+handleGHRelease: true
+manifest: true
+manifestConfig: .github/release-please-config.json
+manifestFile: .github/release-please-manifest.json
