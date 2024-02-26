@@ -9,14 +9,13 @@ group :test do
   gem "simplecov", require: false
   gem "simplecov_json_formatter", require: false
   gem "simplecov-lcov", require: false
-  gem "vcr"
-  gem "webmock"
 end
 
 group :development do
   gem "break"
   gem "guard-rspec"
   gem "pry"
+  gem "pry-doc"
   gem "yard"
 end
 
