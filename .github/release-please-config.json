@@ -1,5 +1,5 @@
 {
-  "release-type": "ruby-yoshi",
+  "release-type": "ruby",
   "draft": true,
   "prerelease": false,
   "bump-minor-pre-major": true,
