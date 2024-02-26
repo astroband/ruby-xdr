@@ -29,18 +29,37 @@ jobs:
   coverage:
     if: "contains(github.event.commits[0].message, '[ci skip]') == false"
     runs-on: ubuntu-latest
+    env:
+      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
     steps:
-    - uses: actions/checkout@v2
-    - uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
-    - name: Upload code coverage data to CodeClimate
-      uses: paambaati/codeclimate-action@v3.0.0
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-      with:
-        coverageCommand: bin/rake test:coverage
-        debug: true
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Generate coverage
+        run: bin/rake test:coverage
+      - name: Upload code coverage report to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          file: coverage/lcov.info
+          debug: true
+        if: success()
+        continue-on-error: true
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage/lcov.info
+          verbose: true
+        if: success()
+        continue-on-error: true
+      - name: Upload code coverage data to CodeClimate
+        uses: paambaati/codeclimate-action@v5
+        with:
+          coverageLocations: coverage/coverage.json:simplecov
+          debug: true
+        if: success()
+        continue-on-error: true
 
   lint:
     runs-on: ubuntu-latest
