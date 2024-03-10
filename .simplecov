@@ -16,4 +16,6 @@ SimpleCov.start do
   enable_coverage(:branch)
 
   track_files "**/*.rb"
+
+  add_filter "examples/"
 end
