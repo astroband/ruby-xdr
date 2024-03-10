@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xdr (3.0.3)
+    xdr (3.0.4)
       activemodel (>= 4.2, < 8.0)
       activesupport (>= 4.2, < 8.0)
 

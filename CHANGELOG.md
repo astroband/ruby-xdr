@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.4](https://github.com/astroband/ruby-xdr/compare/v3.0.3...v3.0.4) (2024-03-10)
+
+
+### Bug Fixes
+
+* update gemspec metadata ([8fc1ba5](https://github.com/astroband/ruby-xdr/commit/8fc1ba5126537116f8dc6017c4354b17d5285578))
+
 ### [3.0.3](https://github.com/astroband/ruby-xdr/compare/v3.0.2...v3.0.3) (2022-02-18)
 ### Bug Fixes
 - make `XDR::Option` write empty strings as values ([#15](https://github.com/astroband/ruby-xdr/pull/15))
