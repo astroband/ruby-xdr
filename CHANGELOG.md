@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### [3.0.3](https://github.com/astroband/ruby-xdr/compare/v3.0.2...v3.0.3) (2022-02-18)
 ### Bug Fixes
-- make `XDR::Option` write empty strings as values ([#15](https://github.com/astroband/ruby-xdr/issues/15)) ([ccab229](https://github.com/astroband/ruby-xdr/commit/ccab22928a1104dee525211b51d1d567079d27ba))
+- make `XDR::Option` write empty strings as values ([#15](https://github.com/astroband/ruby-xdr/pull/15))
 
 
 ## [3.0.2](https://github.com/astroband/ruby-xdr/compare/v3.0.1...v3.0.2) - 2020-10-20
